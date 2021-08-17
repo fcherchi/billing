@@ -4,11 +4,8 @@ import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HashMapDataStorageTest {
 
@@ -20,7 +17,7 @@ class HashMapDataStorageTest {
 
         Product product = new Product(1, "P1", 1, 22.12);
         dataStorage.addProductToCatalog(product);
-        Assertions.assertEquals(product, dataStorage.getProductById(1));
+        Assertions.assertEquals(product, dataStorage.getProductById(1).get());
     }
 
     @Test

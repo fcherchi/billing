@@ -3,7 +3,6 @@ package org.fcherchi.lm.orders;
 
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.data.impl.HashMapDataStorage;
 import org.fcherchi.lm.orders.impl.OrderManagerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
