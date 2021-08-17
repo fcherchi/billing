@@ -2,7 +2,6 @@ package org.fcherchi.lm.orders.impl;
 
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.data.impl.HashMapDataStorage;
 import org.fcherchi.lm.orders.Basket;
 import org.fcherchi.lm.orders.OrderManager;
 import org.fcherchi.lm.orders.exceptions.DataInconsistencyException;
@@ -26,7 +25,7 @@ public class OrderManagerImpl implements OrderManager {
     public void addItem(Integer itemId, Double quantity) {
         Optional<Product> prod = this.dataStorage.getProductById(itemId);
         if (prod.isPresent()) {
-
+            this.basket.addItemsToBasket(prod.get().getId(), quantity);
         } else {
             throw new DataInconsistencyException(String.format("Product '%d' not found in catalog", itemId));
         }

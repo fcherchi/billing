@@ -15,10 +15,6 @@ public interface DataStorage {
      *      */
     void addProductToCatalog(Product productToAdd);
 
-    /**
-     * @return the total amount of items in the catalog
-     */
-    int countProducts();
 
     Optional<Product> getProductById(Integer i);
 }

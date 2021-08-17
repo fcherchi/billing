@@ -17,12 +17,7 @@ public class HashMapDataStorage implements DataStorage {
         products.putIfAbsent(productToAdd.getId(), productToAdd);
     }
 
-    @Override
-    public int countProducts() {
-        return products.size();
-    }
-
-    @Override
+        @Override
     public Optional<Product> getProductById(Integer key) {
         return Optional.ofNullable(products.get(key));
     }
