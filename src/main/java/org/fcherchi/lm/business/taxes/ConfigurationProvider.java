@@ -1,4 +1,4 @@
-package org.fcherchi.lm.data.configuration;
+package org.fcherchi.lm.business.taxes;
 
 public interface ConfigurationProvider {
     /**

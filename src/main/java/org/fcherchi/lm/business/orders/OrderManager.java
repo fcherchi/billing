@@ -1,4 +1,4 @@
-package org.fcherchi.lm.business;
+package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
 import org.fcherchi.lm.data.DataStorage;

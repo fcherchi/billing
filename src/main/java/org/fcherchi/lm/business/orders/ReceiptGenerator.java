@@ -1,4 +1,4 @@
-package org.fcherchi.lm.business;
+package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.data.entities.BasketLine;
 import org.fcherchi.lm.data.entities.ReceiptLine;

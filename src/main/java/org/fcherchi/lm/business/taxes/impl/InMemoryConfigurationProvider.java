@@ -1,7 +1,7 @@
-package org.fcherchi.lm.data.configuration.impl;
+package org.fcherchi.lm.business.taxes.impl;
 
-import org.fcherchi.lm.data.configuration.ConfigurationProvider;
-import org.fcherchi.lm.data.configuration.TaxConfiguration;
+import org.fcherchi.lm.business.taxes.ConfigurationProvider;
+import org.fcherchi.lm.business.taxes.TaxConfiguration;
 
 /**
  * Implementation that hardcodes the configuration in memory. To be replaced by a file config.

@@ -1,7 +1,7 @@
-package org.fcherchi.lm.data.configuration;
+package org.fcherchi.lm.business.taxes;
 
-import org.fcherchi.lm.data.configuration.entities.TaxException;
-import org.fcherchi.lm.data.configuration.exceptions.BadConfigurationException;
+import org.fcherchi.lm.data.entities.TaxException;
+import org.fcherchi.lm.data.exceptions.BadConfigurationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +29,12 @@ public class TaxConfiguration {
         this.importTax = importTax;
     }
 
+    /** Gets the sales taxes */
     public double getSalesTax() {
         return salesTax;
     }
 
+    /** Gets the import taxes*/
     public double getImportTax() {
         return importTax;
     }
