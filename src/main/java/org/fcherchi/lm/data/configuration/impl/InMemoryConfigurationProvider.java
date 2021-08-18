@@ -6,7 +6,7 @@ import org.fcherchi.lm.data.configuration.TaxConfiguration;
 /**
  * Implementation that hardcodes the configuration in memory. To be replaced by a file config.
  */
-public class InMemoryConfigurationProviderImpl implements ConfigurationProvider {
+public class InMemoryConfigurationProvider implements ConfigurationProvider {
 
     private TaxConfiguration taxConfiguration;
 

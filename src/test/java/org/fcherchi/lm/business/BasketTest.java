@@ -1,4 +1,4 @@
-package org.fcherchi.lm.business.impl;
+package org.fcherchi.lm.business;
 
 import org.fcherchi.lm.business.Basket;
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
@@ -7,9 +7,9 @@ import org.fcherchi.lm.factory.EntitiesFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class BasketImplTest {
+class BasketTest {
 
-    private Basket basket = new BasketImpl();
+    private Basket basket = new Basket();
 
     @Test
     void addBasketLine() {
