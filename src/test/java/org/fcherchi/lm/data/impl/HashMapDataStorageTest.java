@@ -47,16 +47,16 @@ class HashMapDataStorageTest {
 
     @Test
     void addOrUpdateProductCategory() {
-        ProductCategory newCat = new ProductCategory(1, "Foo");
-        dataStorage.addOrUpdateProductCategory(1, "Foo");
+        ProductCategory newCat = new ProductCategory(1, "Foo", false);
+        dataStorage.addOrUpdateProductCategory(1, "Foo", false);
         Assertions.assertEquals(newCat, dataStorage.getCategoryById(1).get(), "Added and retrieved categories should match");
     }
 
     @Test
     void updateProductCategory() {
-        ProductCategory newCat = new ProductCategory(1, "Bar");
-        dataStorage.addOrUpdateProductCategory(1, "Foo");
-        dataStorage.addOrUpdateProductCategory(1, "Bar");
+        ProductCategory newCat = new ProductCategory(1, "Bar", false);
+        dataStorage.addOrUpdateProductCategory(1, "Foo", false);
+        dataStorage.addOrUpdateProductCategory(1, "Bar", false);
         Assertions.assertEquals(newCat, dataStorage.getCategoryById(1).get(), "Updated and retrieved categories should match");
     }
 
@@ -71,7 +71,7 @@ class HashMapDataStorageTest {
         ProductCategoryValidator validator = (ProductCategoryValidator)this.dataStorage;
         //non existent is not configurable
         Assertions.assertFalse(validator.isProductCategoryConfigurable(1), "Non existent category should not be configurable");
-        this.dataStorage.addOrUpdateProductCategory(1, "Foo");
+        this.dataStorage.addOrUpdateProductCategory(1, "Foo", false);
         Assertions.assertTrue(validator.isProductCategoryConfigurable(1), "Existent category should be configurable");
     }
 

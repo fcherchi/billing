@@ -33,8 +33,9 @@ public interface DataStorage {
      * Adds or updates a new product category.
      * @param id
      * @param description
+     * @param isImported
      */
-    void addOrUpdateProductCategory(int id, String description);
+    void addOrUpdateProductCategory(int id, String description, Boolean isImported);
 
     /**
      * Retrieves a category by its Id
