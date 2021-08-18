@@ -2,15 +2,16 @@ package org.fcherchi.lm.data.impl;
 
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
+import org.fcherchi.lm.data.entities.ProductCategory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class HashMapDataStorage implements DataStorage {
 
     /** The map holding the info */
     private Map<Integer, Product> products = new HashMap<>();
+
+    private Set<ProductCategory> categories = new HashSet<>();
 
     @Override
     public void addProductToCatalog(Product productToAdd) {

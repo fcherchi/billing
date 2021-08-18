@@ -8,6 +8,7 @@ public class ReceiptGeneratorImpl implements ReceiptGenerator {
 
     @Override
     public ReceiptLine buildReceiptLine(BasketLine basketLine) {
-        return null;
+        ReceiptLine receiptLine = new ReceiptLine(basketLine, basketLine.getProduct().getPrice());
+        return receiptLine;
     }
 }
