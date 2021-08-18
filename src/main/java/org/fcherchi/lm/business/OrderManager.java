@@ -1,4 +1,4 @@
-package org.fcherchi.lm.orders;
+package org.fcherchi.lm.business;
 
 public interface OrderManager {
     /**

@@ -1,10 +1,10 @@
-package org.fcherchi.lm.orders.impl;
+package org.fcherchi.lm.business.impl;
 
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.orders.Basket;
-import org.fcherchi.lm.orders.OrderManager;
-import org.fcherchi.lm.orders.exceptions.DataInconsistencyException;
+import org.fcherchi.lm.business.Basket;
+import org.fcherchi.lm.business.OrderManager;
+import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
 
 import java.util.Optional;
 

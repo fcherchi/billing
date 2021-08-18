@@ -1,10 +1,10 @@
-package org.fcherchi.lm.orders;
+package org.fcherchi.lm.business;
 
 
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.orders.exceptions.DataInconsistencyException;
-import org.fcherchi.lm.orders.impl.OrderManagerImpl;
+import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
+import org.fcherchi.lm.business.impl.OrderManagerImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,4 +1,4 @@
-package org.fcherchi.lm.orders.exceptions;
+package org.fcherchi.lm.business.exceptions;
 
 /**
  * To be thrown when data could become inconsistent (i.e. referential integrity violated)
