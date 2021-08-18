@@ -13,8 +13,10 @@ import java.util.Optional;
  */
 public class OrderManagerImpl implements OrderManager {
 
+    /** Stores the data in memory. Kind of data connection */
     private DataStorage dataStorage;
 
+    /** Contains the items while shopping */
     private Basket basket;
 
     public OrderManagerImpl(DataStorage dataStorage, Basket basket) {
@@ -27,7 +29,7 @@ public class OrderManagerImpl implements OrderManager {
         if (prod.isEmpty()) {
             throw new DataInconsistencyException(String.format("Product '%d' not found in catalog", itemId));
         }
-        this.basket.addItemsToBasket(prod.get().getId(), quantity);
+        this.basket.addItemsToBasket(prod.get(), quantity);
     }
 
     public double getTotalItemsInBasket() {

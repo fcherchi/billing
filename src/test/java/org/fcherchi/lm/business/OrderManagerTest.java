@@ -5,6 +5,7 @@ import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
 import org.fcherchi.lm.business.impl.OrderManagerImpl;
+import org.fcherchi.lm.factory.EntitiesFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +26,12 @@ public class OrderManagerTest {
     @Test
     public void testAddItemToBasket() {
         OrderManager orderManager = new OrderManagerImpl(dataStorage, basket);
-        Optional<Product> product1 = Optional.of(new Product(1, "p1", 1, 22.25));
+        Optional<Product> product1 = Optional.of(new Product(1, "p1", EntitiesFactory.getCategoryNoTaxes(), 22.25));
         Mockito.when(dataStorage.getProductById(1)).thenReturn(product1);
         Mockito.when(basket.getTotalItemsInBasket()).thenReturn(1.0);
 
         orderManager.addItem(1, 1.0);
-        Mockito.verify(basket).addItemsToBasket(1, 1.0);
+        Mockito.verify(basket).addItemsToBasket(product1.get(), 1.0);
         Assertions.assertEquals(1, orderManager.getTotalItemsInBasket(), "Order manager should add items to basket");
     }
 

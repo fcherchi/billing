@@ -1,12 +1,14 @@
 package org.fcherchi.lm.business;
 
+import org.fcherchi.lm.data.entities.Product;
+
 public interface Basket {
     /**
      * Adds the given items to the shopping cart.
-     * @param productId The product id of the item to add.
+     * @param product The product of the item to add.
      * @param  quantity The quantity. Only >=0 allowed.
      */
-    void addItemsToBasket(Integer productId, Double quantity);
+    void addItemsToBasket(Product product, Double quantity);
 
     /**
      * Returns the total number of items currently in the basket.

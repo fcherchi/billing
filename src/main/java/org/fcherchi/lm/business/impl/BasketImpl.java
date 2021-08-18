@@ -1,8 +1,9 @@
 package org.fcherchi.lm.business.impl;
 
-import org.fcherchi.lm.data.entities.BasketLine;
 import org.fcherchi.lm.business.Basket;
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
+import org.fcherchi.lm.data.entities.BasketLine;
+import org.fcherchi.lm.data.entities.Product;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,13 +17,13 @@ public class BasketImpl implements Basket {
     private Map<Integer, BasketLine> lines = new LinkedHashMap<>();
 
     @Override
-    public void addItemsToBasket(Integer productId, Double quantity) {
+    public void addItemsToBasket(Product product, Double quantity) {
         if (quantity < 0.0) {
             throw new DataInconsistencyException(String.format("No negative numbers allowed in quantity. Received '%f'", quantity));
         }
-        BasketLine line = lines.getOrDefault(productId, new BasketLine(productId, 0.0));
+        BasketLine line = lines.getOrDefault(product.getId(), new BasketLine(product, 0.0));
         line = line.addQuantity(quantity);
-        this.lines.put(productId, line);
+        this.lines.put(product.getId(), line);
     }
 
     @Override

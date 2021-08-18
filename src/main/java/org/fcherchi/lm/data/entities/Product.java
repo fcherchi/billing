@@ -18,32 +18,19 @@ public class Product {
     /**
      * Category of the product
      */
-    private Integer categoryId;
+    private ProductCategory category;
 
     /**
      * Price
      */
     private Double price;
 
-    public Product(Integer id, String description, Integer categoryId, Double price) {
+
+    public Product(Integer id, String description, ProductCategory category, Double price) {
         this.id = id;
         this.description = description;
-        this.categoryId = categoryId;
+        this.category = category;
         this.price = price;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product good = (Product) o;
-        return Objects.equals(id, good.id) && Objects.equals(description, good.description) && Objects.equals(categoryId, good.categoryId) && Objects.equals(price, good.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, categoryId, price);
     }
 
     public Integer getId() {
@@ -54,8 +41,8 @@ public class Product {
         return description;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public ProductCategory getCategory() {
+        return category;
     }
 
     public Double getPrice() {
@@ -63,11 +50,24 @@ public class Product {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id) && description.equals(product.description) && category.equals(product.category) && price.equals(product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, category, price);
+    }
+
+    @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", categoryId=" + categoryId +
+                ", category=" + category +
                 ", price=" + price +
                 '}';
     }

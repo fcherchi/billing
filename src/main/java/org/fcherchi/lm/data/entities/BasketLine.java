@@ -5,47 +5,52 @@ import java.util.Objects;
 public class BasketLine {
 
 
-    /** The id of the product being sold */
-    private Integer productId;
-    /** The amount of units being sold */
+    /**
+     * The link to the product being sold
+     */
+    private Product product;
+    /**
+     * The amount of units being sold
+     */
     private Double quantity;
 
-    @Override
-    public String toString() {
-        return "BasketLine{" +
-                "productId=" + productId +
-                ", quantity=" + quantity +
-                '}';
-    }
-
-    public BasketLine(Integer productId, Double quantity) {
-        this.productId = productId;
+    public BasketLine(Product product, Double quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
 
+
     public BasketLine addQuantity(Double quantity) {
-        return new BasketLine(this.productId, this.quantity + quantity);
-    }
+        return new BasketLine(this.product, this.quantity + quantity);
 
-    public Integer getProductId() {
-        return productId;
     }
-
-    public Double getQuantity() {
-        return quantity;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BasketLine that = (BasketLine) o;
-        return Objects.equals(productId, that.productId) && Objects.equals(quantity, that.quantity);
+        return Objects.equals(product, that.product) && Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, quantity);
+        return Objects.hash(product, quantity);
+    }
+
+    @Override
+    public String toString() {
+        return "BasketLine{" +
+                "product=" + product +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Double getQuantity() {
+        return quantity;
     }
 }
