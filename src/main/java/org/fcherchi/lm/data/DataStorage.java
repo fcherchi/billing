@@ -15,6 +15,16 @@ public interface DataStorage {
      *      */
     void addProductToCatalog(Product productToAdd);
 
+    /**
+     * Retrieves a product by its ID or empty if the product was not found.
+     * @param productId
+     * @return
+     */
+    Optional<Product> getProductById(Integer productId);
 
-    Optional<Product> getProductById(Integer i);
+    /**
+     * Retrieves the total amount of products in the catalog.
+     * @return
+     */
+    int getProductsCount();
 }

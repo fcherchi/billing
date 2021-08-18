@@ -24,11 +24,10 @@ public class OrderManagerImpl implements OrderManager {
 
     public void addItem(Integer itemId, Double quantity) {
         Optional<Product> prod = this.dataStorage.getProductById(itemId);
-        if (prod.isPresent()) {
-            this.basket.addItemsToBasket(prod.get().getId(), quantity);
-        } else {
+        if (prod.isEmpty()) {
             throw new DataInconsistencyException(String.format("Product '%d' not found in catalog", itemId));
         }
+        this.basket.addItemsToBasket(prod.get().getId(), quantity);
     }
 
     public double getTotalItemsInBasket() {

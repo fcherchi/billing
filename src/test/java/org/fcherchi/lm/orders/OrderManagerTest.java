@@ -22,7 +22,6 @@ public class OrderManagerTest {
     @Mock
     private Basket basket;
 
-
     @Test
     public void testAddItemToBasket() {
         OrderManager orderManager = new OrderManagerImpl(dataStorage, basket);
@@ -32,7 +31,7 @@ public class OrderManagerTest {
 
         orderManager.addItem(1, 1.0);
         Mockito.verify(basket).addItemsToBasket(1, 1.0);
-        Assertions.assertEquals(1, orderManager.getTotalItemsInBasket());
+        Assertions.assertEquals(1, orderManager.getTotalItemsInBasket(), "Order manager should add items to basket");
     }
 
     @Test
@@ -42,7 +41,7 @@ public class OrderManagerTest {
 
         Assertions.assertThrows(DataInconsistencyException.class, () -> {
             orderManager.addItem(1, 1.0);
-        });
+        }, "Exception expected if wrong product id is provided");
     }
 
 }
