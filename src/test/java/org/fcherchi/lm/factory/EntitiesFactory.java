@@ -9,7 +9,7 @@ import org.fcherchi.lm.data.entities.ProductCategory;
 public class EntitiesFactory {
 
     public static ProductCategory getCategoryNoTaxes() {
-        return new ProductCategory(1, "TestCategory No Tax", 0.0, 0.0);
+        return new ProductCategory(1, "TestCategory No Tax");
     }
 
     public static Product createProductNoTax(Integer productId){

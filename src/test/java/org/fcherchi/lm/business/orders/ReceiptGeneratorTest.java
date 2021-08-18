@@ -11,11 +11,10 @@ class ReceiptGeneratorTest {
 
     private ReceiptGenerator receiptGenerator = new ReceiptGenerator();
 
-
     @Test
     void buildReceiptLineNoTaxes() {
 
-        ProductCategory books = new ProductCategory(1, "Books", 0.0, 0.0);
+        ProductCategory books = new ProductCategory(1, "Books");
         Product book = new Product(1, "Book", books, 12.49);
 
         BasketLine basketLine = new BasketLine(book, 1.0);
@@ -26,7 +25,7 @@ class ReceiptGeneratorTest {
    // @Test
     void buildReceiptLineImportTaxes() {
 
-        ProductCategory importedBooks = new ProductCategory(1, "Imported Books", 0.0, 0.0);
+        ProductCategory importedBooks = new ProductCategory(1, "Imported Books");
         Product book = new Product(1, "Imported Book", importedBooks, 12.49);
 
         BasketLine basketLine = new BasketLine(book, 1.0);

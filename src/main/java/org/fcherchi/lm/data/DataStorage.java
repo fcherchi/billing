@@ -1,6 +1,7 @@
 package org.fcherchi.lm.data;
 
 import org.fcherchi.lm.data.entities.Product;
+import org.fcherchi.lm.data.entities.ProductCategory;
 
 import java.util.Optional;
 
@@ -27,4 +28,18 @@ public interface DataStorage {
      * @return
      */
     int getProductsCount();
+
+    /**
+     * Adds or updates a new product category.
+     * @param id
+     * @param description
+     */
+    void addOrUpdateProductCategory(int id, String description);
+
+    /**
+     * Retrieves a category by its Id
+     * @param id
+     * @return
+     */
+    Optional<ProductCategory> getCategoryById(int id);
 }

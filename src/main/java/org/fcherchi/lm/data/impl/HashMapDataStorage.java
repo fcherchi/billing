@@ -1,17 +1,18 @@
 package org.fcherchi.lm.data.impl;
 
+import org.fcherchi.lm.business.taxes.ProductCategoryValidator;
 import org.fcherchi.lm.data.DataStorage;
 import org.fcherchi.lm.data.entities.Product;
 import org.fcherchi.lm.data.entities.ProductCategory;
 
 import java.util.*;
 
-public class HashMapDataStorage implements DataStorage {
+public class HashMapDataStorage implements DataStorage, ProductCategoryValidator {
 
     /** The map holding the info */
     private Map<Integer, Product> products = new HashMap<>();
 
-    private Set<ProductCategory> categories = new HashSet<>();
+    private Map<Integer, ProductCategory> categories = new HashMap<>();
 
     @Override
     public void addProductToCatalog(Product productToAdd) {
@@ -26,5 +27,22 @@ public class HashMapDataStorage implements DataStorage {
     @Override
     public int getProductsCount() {
         return this.products.size();
+    }
+
+    @Override
+    public void addOrUpdateProductCategory(int id, String description) {
+        ProductCategory category = new ProductCategory(id, description);
+        this.categories.put(id, category);
+    }
+
+    @Override
+    public Optional<ProductCategory> getCategoryById(int id) {
+        return Optional.ofNullable(categories.get(id));
+    }
+
+    @Override
+    public boolean isProductCategoryConfigurable(int productCategoryId) {
+        //any product category qualify as tax-configurable as long as exist
+        return this.categories.containsKey(productCategoryId);
     }
 }
