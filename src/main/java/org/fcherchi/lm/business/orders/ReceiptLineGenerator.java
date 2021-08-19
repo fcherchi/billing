@@ -12,41 +12,43 @@ import java.util.Optional;
 /**
  * Generates a Receipt out of a Basket
  */
-public class ReceiptGenerator {
+public class ReceiptLineGenerator {
 
     private static final double NO_TAX = 0.00;
     private final ConfigurationProvider configurationProvider;
 
-    public ReceiptGenerator(ConfigurationProvider configurationProvider) {
+    public ReceiptLineGenerator(ConfigurationProvider configurationProvider) {
        this.configurationProvider = configurationProvider;
     }
 
 
     /**
      * Creates a receipt line with taxes out of a basket line (raw price)
-     * @param basketLine
-     * @return
+     * @param basketLine The basket line to use as base.
+     * @return The receipt line with taxes applied
      */
     public ReceiptLine buildReceiptLine(BasketLine basketLine) {
         //check nulls
         validateBasketLine(basketLine);
-
         TaxCalculator taxCalculator = new TaxCalculator();
-
         double price = basketLine.getProduct().getPrice();
-        double endPrice = price;
 
         //could get 0.0 if exempt
         double applicableSalesRate = getApplicableSalesRate(basketLine.getProduct().getCategory());
         double applicableImportRate = getApplicableImportRate(basketLine.getProduct().getCategory());
 
-        endPrice = taxCalculator.getPricePlusTaxes(price,
+        double endPrice = taxCalculator.getPricePlusTaxes(price,
                 applicableSalesRate,
                 applicableImportRate);
 
         return new ReceiptLine(basketLine, endPrice);
     }
 
+    /**
+     * Gets the applicable import rate if any
+     * @param category The category
+     * @return 0 if no import product provided, otherwise, the import tax rate as per config.
+     */
     private double getApplicableImportRate(ProductCategory category) {
         //shortcut for not imported products. Ignore import tax value in tax exception
         if (! category.getImported()) {
@@ -73,12 +75,9 @@ public class ReceiptGenerator {
         return result;
     }
 
-
-
-
     /**
      * Defensive method to throw exception if null detected on mandatory fields
-     * @param basketLine
+     * @param basketLine the basket line to validate
      */
     private void validateBasketLine(BasketLine basketLine) {
         if (basketLine.getProduct() == null) throw new IllegalArgumentException("Product in Basket Line cannot be null.");

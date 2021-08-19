@@ -14,9 +14,9 @@ import java.util.Optional;
 /**
  * This test class uses mocks for testing just the unit.
  */
-public class ReceiptGeneratorTest {
+public class ReceiptLineGeneratorTest {
 
-    private ReceiptGenerator receiptGenerator;
+    private ReceiptLineGenerator receiptLineGenerator;
     private TaxConfiguration mockConfiguration;
     private ConfigurationProvider mockConfigProvider;
 
@@ -29,7 +29,7 @@ public class ReceiptGeneratorTest {
         Mockito.when(mockConfiguration.getSalesTax()).thenReturn(10.0);
         Mockito.when(mockConfigProvider.getConfiguration()).thenReturn(mockConfiguration);
 
-        this.receiptGenerator = new ReceiptGenerator(mockConfigProvider);
+        this.receiptLineGenerator = new ReceiptLineGenerator(mockConfigProvider);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class ReceiptGeneratorTest {
         Product book = getProductWithPrice(12.49, false);
         Optional<TaxException> bookTaxException = Optional.of(TaxException.buildWithSalesTax(1, 0.0));
         Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
-        ReceiptLine actual = receiptGenerator.buildReceiptLine(new BasketLine(book, 1.0));
+        ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(book, 1.0));
         Assertions.assertEquals(12.49, actual.getPriceWithTaxes(), "Price for a not imported book should be the same.");
     }
 
@@ -51,7 +51,7 @@ public class ReceiptGeneratorTest {
         Optional<TaxException> bookTaxException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 0.0, 5.0));
 
         Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
-        ReceiptLine actual = receiptGenerator.buildReceiptLine(new BasketLine(book, 1.0));
+        ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(book, 1.0));
         Assertions.assertEquals(12.49, actual.getPriceWithTaxes(), "Price for a not imported book should be the same.");
     }
 
@@ -65,7 +65,7 @@ public class ReceiptGeneratorTest {
         Optional<TaxException> prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 10.0, 10.0));
 
         Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
-        ReceiptLine actual = receiptGenerator.buildReceiptLine(new BasketLine(product, 1.0));
+        ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0));
         Assertions.assertEquals(14.99, actual.getPriceWithTaxes(), "Price for product should be 14.99 (12.49 + 1.25 + 1.25).");
     }
 
@@ -77,7 +77,7 @@ public class ReceiptGeneratorTest {
 
         Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
 
-        Assertions.assertThrows(BadConfigurationException.class, () -> receiptGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
+        Assertions.assertThrows(BadConfigurationException.class, () -> receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
                 "Exception expected when negative tax provided.");
     }
 
@@ -89,14 +89,14 @@ public class ReceiptGeneratorTest {
     @Test
     void buildReceiptLineImportTaxes() {
         Product book = getProductWithPrice(12.49, true);
-        ReceiptLine actual = receiptGenerator.buildReceiptLine(new BasketLine(book, 1.0));
+        ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(book, 1.0));
         Assertions.assertNotEquals(12.49, actual.getPriceWithTaxes(), "Price for a imported book should apply a tax rate.");
     }
 
     @Test
     void buildReceiptLineImportAndSalesTaxes() {
         Product importedPerfume = getProductWithPrice(47.50, true);
-        ReceiptLine actual = receiptGenerator.buildReceiptLine(new BasketLine(importedPerfume, 1.0));
+        ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(importedPerfume, 1.0));
         Assertions.assertEquals(54.65, actual.getPriceWithTaxes(), "Price for a imported perfume should apply sales and import tax rate.");
     }
 }
