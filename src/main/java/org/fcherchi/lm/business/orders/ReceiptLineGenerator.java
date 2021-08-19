@@ -39,7 +39,8 @@ public class ReceiptLineGenerator {
 
         double endPrice = taxCalculator.getPricePlusTaxes(price,
                 applicableSalesRate,
-                applicableImportRate);
+                applicableImportRate,
+                basketLine.getQuantity());
 
         return new ReceiptLine(basketLine, endPrice);
     }

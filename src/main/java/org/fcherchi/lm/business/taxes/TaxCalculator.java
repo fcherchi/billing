@@ -18,9 +18,10 @@ public class TaxCalculator {
      * @param rawPrice The price without taxes
      * @param salesTax The Sales Tax
      * @param importTax the Import Tax
+     * @param quantity The number of units
      * @return The price plus sales and import taxes
      */
-    public double getPricePlusTaxes(double rawPrice, double salesTax, double importTax) {
+    public double getPricePlusTaxes(double rawPrice, double salesTax, double importTax, double quantity) {
         //validate no negatives
         validateRates(salesTax, importTax);
 
@@ -29,7 +30,7 @@ public class TaxCalculator {
                 .add(new BigDecimal(Double.toString(getTax(rawPrice, importTax))))
                 .add(new BigDecimal(Double.toString(getTax(rawPrice, salesTax))));
 
-        return result.doubleValue();
+        return result.multiply(new BigDecimal(quantity)).doubleValue();
     }
 
     private void validateRates(double salesTax, double importTax) {

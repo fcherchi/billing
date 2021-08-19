@@ -12,8 +12,10 @@ import java.util.Map;
  */
 public class Basket {
 
+
+
     /** Contains the lines in the basket */
-    private Map<Integer, BasketLine> lines = new LinkedHashMap<>();
+    private final Map<Integer, BasketLine> lines = new LinkedHashMap<>();
 
     /**
      * Adds the given items to the shopping cart.
@@ -37,6 +39,11 @@ public class Basket {
         return this.lines.values().stream()
                 .map(line -> line.getQuantity())
                 .reduce(0.0, (a, b) -> a + b);
+    }
+
+    /** Get the lines in the Basket */
+    public Map<Integer, BasketLine> getLines() {
+        return lines;
     }
 
     /**

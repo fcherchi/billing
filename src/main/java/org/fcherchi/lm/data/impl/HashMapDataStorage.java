@@ -30,9 +30,10 @@ public class HashMapDataStorage implements DataStorage, ProductCategoryValidator
     }
 
     @Override
-    public void addOrUpdateProductCategory(int id, String description, Boolean isImported) {
+    public ProductCategory addOrUpdateProductCategory(int id, String description, Boolean isImported) {
         ProductCategory category = new ProductCategory(id, description, isImported);
         this.categories.put(id, category);
+        return category;
     }
 
     @Override
