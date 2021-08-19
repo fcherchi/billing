@@ -67,4 +67,19 @@ public class Receipt {
                 ", total=" + total +
                 '}';
     }
+
+    /**
+     * Prints the receipt as in the exercise example
+     * @return
+     */
+    public String prettyPrint() {
+        StringBuilder builder = new StringBuilder();
+        this.receiptLines.stream().forEach(line -> builder.append(String.format("%.0f %s: %.2f\r\n",
+                line.getBasketLine().getQuantity(),
+                line.getBasketLine().getProduct().getDescription(),
+                line.getPriceWithTaxes())));
+        builder.append(String.format("Sales Taxes: %.2f\r\n", this.salesTaxes));
+        builder.append(String.format("Total: %.2f\r\n", this.total));
+        return builder.toString();
+    }
 }

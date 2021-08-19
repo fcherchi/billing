@@ -1,0 +1,9 @@
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/data/impl/HashMapDataStorageTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/taxes/TaxCalculatorTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/orders/ReceiptLineGeneratorTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/taxes/TaxConfigurationTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/orders/ReceiptGeneratorTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/taxes/InMemoryConfigurationProvider.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/orders/OrderManagerTest.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/factory/EntitiesFactory.java
+/home/fernando/Documents/rnd/java/lm/billing/src/test/java/org/fcherchi/lm/business/orders/BasketTest.java

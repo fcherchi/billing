@@ -14,12 +14,14 @@ public class InMemoryConfigurationProvider implements ConfigurationProvider {
     private static final int BOOKS_CATEGORY_ID = 1;
     private static final int HEALTH_CATEGORY_ID = 3;
     private static final int FOOD_CATEGORY_ID = 4;
+    private static final int IMPORTED_FOOD_CATEGORY_ID = 5;
 
     public static final double NO_TAX = 0.0;
 
     public static final TaxException BOOKS = TaxException.buildWithSalesTax(BOOKS_CATEGORY_ID, NO_TAX);
     public static final TaxException HEALTH = TaxException.buildWithSalesTax(HEALTH_CATEGORY_ID, NO_TAX);
     public static final TaxException FOOD = TaxException.buildWithSalesTax(FOOD_CATEGORY_ID, NO_TAX);
+    public static final TaxException IMPORTED_FOOD = TaxException.buildWithSalesTax(IMPORTED_FOOD_CATEGORY_ID, NO_TAX);
 
     private final TaxConfiguration taxConfiguration;
 
@@ -32,6 +34,7 @@ public class InMemoryConfigurationProvider implements ConfigurationProvider {
         this.taxConfiguration.addTaxException(BOOKS);
         this.taxConfiguration.addTaxException(HEALTH);
         this.taxConfiguration.addTaxException(FOOD);
+        this.taxConfiguration.addTaxException(IMPORTED_FOOD);
     }
 
     @Override

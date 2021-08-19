@@ -72,7 +72,7 @@ public class ReceiptGeneratorTest {
         dataStorage.addProductToCatalog(new Product(IMPORTED_BOTTLE_OF_PERFUME_CHEAP_ID, "Imported bottle of Perfume", importedPerfume, 27.99));
         dataStorage.addProductToCatalog(new Product(BOTTLE_OF_PERFUME_ID, "Bottle of Perfume", perfume, 18.99));
         dataStorage.addProductToCatalog(new Product(PACKET_OF_HEADACHE_PILLS_ID, "Packet of Headache pills", medical, 9.75));
-        dataStorage.addProductToCatalog(new Product(BOX_OF_IMPORTED_CHOCOLATES_ID, "Box of imported Chocolates", food, 11.25));
+        dataStorage.addProductToCatalog(new Product(BOX_OF_IMPORTED_CHOCOLATES_ID, "Box of imported Chocolates", importedFood, 11.25));
 
     }
 
@@ -86,19 +86,52 @@ public class ReceiptGeneratorTest {
     public void testReceiptCreation() {
 
         Receipt receipt1 = receiptGenerator.buildReceipt(getBasketInput1());
-        Assertions.assertEquals(1.50, receipt1.getSalesTaxes(), "Expected sales taxes of 1.50 in output1");
+        System.out.println("Output 1:");
+        System.out.println(receipt1.prettyPrint());
+
+        Assertions.assertEquals(1.50, receipt1.getSalesTaxes(), "Expected sales taxes of 1.50 in output 1");
         Assertions.assertEquals(29.83, receipt1.getTotal(), "Expected total of 29.83 in output1");
 
-        System.out.println(receipt1.toString());
+        Receipt receipt2 = receiptGenerator.buildReceipt(getBasketInput2());
+        System.out.println("Output 2:");
+        System.out.println(receipt2.prettyPrint());
+
+        Assertions.assertEquals(7.65, receipt2.getSalesTaxes(), "Expected sales taxes of 7.65 in output 2");
+        Assertions.assertEquals(65.15, receipt2.getTotal(), "Expected total of 65.15 in output1");
+
+        Receipt receipt3 = receiptGenerator.buildReceipt(getBasketInput3());
+        System.out.println("Output 3:");
+        System.out.println(receipt3.prettyPrint());
+
+        Assertions.assertEquals(6.70, receipt3.getSalesTaxes(), "Expected sales taxes of 6.70 in output 3");
+        Assertions.assertEquals(74.68, receipt3.getTotal(), "Expected total of 74.68 in output1");
+
 
     }
 
     private Basket getBasketInput1() {
         Basket basket = new Basket();
-        Product product = dataStorage.getProductById(BOOK_ID).get();
         basket.addItemsToBasket(dataStorage.getProductById(BOOK_ID).get(), 1.0);
         basket.addItemsToBasket(dataStorage.getProductById(CD_ID).get(), 1.0);
         basket.addItemsToBasket(dataStorage.getProductById(CHOCOLATE_BAR_ID).get(), 1.0);
+
+        return basket;
+    }
+
+    private Basket getBasketInput2() {
+        Basket basket = new Basket();
+        basket.addItemsToBasket(dataStorage.getProductById(IMPORTED_BOX_CHOCOLATES_ID).get(), 1.0);
+        basket.addItemsToBasket(dataStorage.getProductById(IMPORTED_BOTTLE_OF_PERFUME_EXPENSIVE_ID).get(), 1.0);
+
+        return basket;
+    }
+
+    private Basket getBasketInput3() {
+        Basket basket = new Basket();
+        basket.addItemsToBasket(dataStorage.getProductById(IMPORTED_BOTTLE_OF_PERFUME_CHEAP_ID).get(), 1.0);
+        basket.addItemsToBasket(dataStorage.getProductById(BOTTLE_OF_PERFUME_ID).get(), 1.0);
+        basket.addItemsToBasket(dataStorage.getProductById(PACKET_OF_HEADACHE_PILLS_ID).get(), 1.0);
+        basket.addItemsToBasket(dataStorage.getProductById(BOX_OF_IMPORTED_CHOCOLATES_ID).get(), 1.0);
 
         return basket;
     }
