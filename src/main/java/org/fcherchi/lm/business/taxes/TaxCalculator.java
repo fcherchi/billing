@@ -35,7 +35,10 @@ public class TaxCalculator {
      * @return
      */
     public double getPricePlusImportTax(double rawPrice) {
-        return rawPrice + getImportTaxFor(rawPrice);
+        BigDecimal bd = new BigDecimal(Double.toString(rawPrice));
+        BigDecimal result = bd.add(new BigDecimal(Double.toString(getImportTaxFor(rawPrice))));
+
+        return result.doubleValue();
     }
 
     /**
@@ -44,7 +47,12 @@ public class TaxCalculator {
      * @return The price plus sales and import taxes
      */
     public double getPricePlusSalesAndImportTax(double rawPrice) {
-        return rawPrice + getImportTaxFor(rawPrice) + getSalesTaxFor(rawPrice);
+        BigDecimal rawPricePrecise = new BigDecimal(Double.toString(rawPrice));
+        BigDecimal result = rawPricePrecise
+                .add(new BigDecimal(Double.toString(getImportTaxFor(rawPrice))))
+                .add(new BigDecimal(Double.toString(getSalesTaxFor(rawPrice))));
+
+        return result.doubleValue();
     }
 
 
@@ -101,7 +109,7 @@ public class TaxCalculator {
             // go to the next multiple of 5 (from 1352 we do 1352 + (5 - 2)
             valueWithoutDecimals = (int) (valueWithoutDecimals + divisibleFactor - mod);
         }
-        return (double) valueWithoutDecimals / multiplier;
+        return new BigDecimal(valueWithoutDecimals).divide(new BigDecimal(multiplier)).doubleValue();
     }
 
 }
