@@ -1,5 +1,6 @@
 package org.fcherchi.lm.business.orders;
 
+import org.fcherchi.lm.business.taxes.ConfigurationProvider;
 import org.fcherchi.lm.business.taxes.TaxCalculator;
 import org.fcherchi.lm.business.taxes.TaxConfiguration;
 import org.fcherchi.lm.data.entities.BasketLine;
@@ -9,11 +10,12 @@ import org.fcherchi.lm.data.entities.ReceiptLine;
  */
 public class ReceiptGenerator {
 
-    private final TaxCalculator taxCalculator;
+   private final ConfigurationProvider configurationProvider;
 
-    public ReceiptGenerator(TaxConfiguration taxConfiguration) {
-        this.taxCalculator = new TaxCalculator(taxConfiguration);
+    public ReceiptGenerator(TaxConfiguration taxConfiguration, ConfigurationProvider configurationProvider) {
+       this.configurationProvider = configurationProvider;
     }
+
 
     /**
      * Creates a receipt line with taxes out of a basket line (raw price)
@@ -21,15 +23,26 @@ public class ReceiptGenerator {
      * @return
      */
     public ReceiptLine buildReceiptLine(BasketLine basketLine) {
+        //check nulls
         validateBasketLine(basketLine);
+
+        TaxCalculator taxCalculator = new TaxCalculator();
+
+        double price = basketLine.getProduct().getPrice();
+        double endPrice = price;
+
+//        if (this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(basketLine.getProduct().getCategory().getId()).isEmpty()) {
+//
+//        }
+
         if (basketLine.getProduct().getCategory().getImported()) {
-           // double importFee = this.taxCalculator.getImportFeeFor(basketLine.getProduct().getPrice());
-
+           endPrice = taxCalculator.getPricePlusTaxes(price,
+                   0.0,
+                   this.configurationProvider.getConfiguration().getImportTax());
         }
-
-        ReceiptLine receiptLine = new ReceiptLine(basketLine, basketLine.getProduct().getPrice());
-        return receiptLine;
+        return new ReceiptLine(basketLine, endPrice);
     }
+
 
     /**
      * Defensive method to throw exception if null detected on mandatory fields

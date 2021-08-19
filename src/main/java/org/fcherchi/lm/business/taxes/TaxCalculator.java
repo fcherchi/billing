@@ -11,46 +11,18 @@ public class TaxCalculator {
     public static final int SALES_TAX_ROUND_UP_PRECISION = 2;
     private static final double ROUNDUP_FACTOR = 0.05;
 
-    private final TaxConfiguration taxConfiguration;
-
-    public TaxCalculator(TaxConfiguration taxConfiguration) {
-        this.taxConfiguration = taxConfiguration;
-    }
-
-    /**
-     * Gets the price adding the sales tax accoring to tax configuration
-     * @param price The price without taxes
-     * @return The price plus sales taxes
-     */
-    public double getPricePlusSalesTax(double price) {
-        BigDecimal bd = new BigDecimal(Double.toString(price));
-        BigDecimal result = bd.add(new BigDecimal(Double.toString(getSalesTaxFor(price))));
-
-        return result.doubleValue();
-    }
-
-    /**
-     * Gets the price adding the import tax to the given raw price.
-     * @param rawPrice The price without taxes
-     * @return
-     */
-    public double getPricePlusImportTax(double rawPrice) {
-        BigDecimal bd = new BigDecimal(Double.toString(rawPrice));
-        BigDecimal result = bd.add(new BigDecimal(Double.toString(getImportTaxFor(rawPrice))));
-
-        return result.doubleValue();
-    }
-
     /**
      * Gets the final price adding both import taxes and sales taxes
      * @param rawPrice The price without taxes
+     * @param salesTax The Sales Tax
+     * @param importTax the Import Tax
      * @return The price plus sales and import taxes
      */
-    public double getPricePlusSalesAndImportTax(double rawPrice) {
+    public double getPricePlusTaxes(double rawPrice, double salesTax, double importTax) {
         BigDecimal rawPricePrecise = new BigDecimal(Double.toString(rawPrice));
         BigDecimal result = rawPricePrecise
-                .add(new BigDecimal(Double.toString(getImportTaxFor(rawPrice))))
-                .add(new BigDecimal(Double.toString(getSalesTaxFor(rawPrice))));
+                .add(new BigDecimal(Double.toString(getTax(rawPrice, importTax))))
+                .add(new BigDecimal(Double.toString(getTax(rawPrice, salesTax))));
 
         return result.doubleValue();
     }
@@ -61,19 +33,9 @@ public class TaxCalculator {
      * @param price The price without taxes
      * @return The Sales tax part to be added to the received price
      */
-    public double getSalesTaxFor(double price) {
-        return getTax(price, this.taxConfiguration.getSalesTax());
+    public double getTaxFor(double price, double taxRate) {
+        return getTax(price, taxRate);
     }
-
-    /**
-     * Gets the import tax of the given price.
-     * @param price The price without taxes
-     * @return The Import tax part to be added to the received price
-     */
-    public double getImportTaxFor(double price) {
-        return getTax(price, this.taxConfiguration.getImportTax());
-    }
-
 
     /**
      * Gets the applicable tax rounded up to the nearest 0.05

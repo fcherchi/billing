@@ -3,40 +3,33 @@ package org.fcherchi.lm.business.taxes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaxCalculatorTest {
 
-    @Mock
-    private TaxConfiguration taxConfiguration;
+    private static final double SALES_TAX = 10.00;
+    private static final double IMPORT_TAX = 5.00;
+    private static final double NO_TAX = 0.00;
 
     @Test
     void calculateOnlySalesTax() {
-        TaxCalculator taxCalculator = new TaxCalculator(taxConfiguration);
-        Mockito.when(taxConfiguration.getSalesTax()).thenReturn(10.0);
-        Assertions.assertEquals(16.49, taxCalculator.getPricePlusSalesTax(14.99), "Wrong result as per exercise example.");
-        Assertions.assertEquals(20.89, taxCalculator.getPricePlusSalesTax(18.99), "Wrong result as per exercise example.");
+        TaxCalculator taxCalculator = new TaxCalculator();
+        Assertions.assertEquals(16.49, taxCalculator.getPricePlusTaxes(14.99, SALES_TAX, NO_TAX), "Wrong result as per exercise example.");
+        Assertions.assertEquals(20.89, taxCalculator.getPricePlusTaxes(18.99, SALES_TAX, NO_TAX), "Wrong result as per exercise example.");
     }
 
     @Test
     void calculateOnlyImportTax() {
-        TaxCalculator taxCalculator = new TaxCalculator(taxConfiguration);
-        Mockito.when(taxConfiguration.getImportTax()).thenReturn(5.0);
-        Assertions.assertEquals(10.50, taxCalculator.getPricePlusImportTax(10.00), "Wrong result as per exercise example.");
-        Assertions.assertEquals(11.85, taxCalculator.getPricePlusImportTax(11.25), "Wrong result as per exercise example.");
+        TaxCalculator taxCalculator = new TaxCalculator();
+        Assertions.assertEquals(10.50, taxCalculator.getPricePlusTaxes(10.00, NO_TAX, IMPORT_TAX), "Wrong result as per exercise example.");
+        Assertions.assertEquals(11.85, taxCalculator.getPricePlusTaxes(11.25, NO_TAX, IMPORT_TAX), "Wrong result as per exercise example.");
     }
 
     @Test
     void calculateImportAndSalesTax() {
-        TaxCalculator taxCalculator = new TaxCalculator(taxConfiguration);
-        Mockito.when(taxConfiguration.getImportTax()).thenReturn(5.0);
-        Mockito.when(taxConfiguration.getSalesTax()).thenReturn(10.0);
-        Assertions.assertEquals(54.65, taxCalculator.getPricePlusSalesAndImportTax(47.50), "EWrong result as per exercise example.");
-        Assertions.assertEquals(32.19, taxCalculator.getPricePlusSalesAndImportTax(27.99), "EWrong result as per exercise example.");
+        TaxCalculator taxCalculator = new TaxCalculator();
+        Assertions.assertEquals(54.65, taxCalculator.getPricePlusTaxes(47.50, SALES_TAX, IMPORT_TAX), "Wrong result as per exercise example.");
+        Assertions.assertEquals(32.19, taxCalculator.getPricePlusTaxes(27.99, SALES_TAX, IMPORT_TAX), "Wrong result as per exercise example.");
     }
 }
