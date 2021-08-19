@@ -74,9 +74,12 @@ public class ReceiptLineGeneratorTest {
         Product product = getProductWithPrice(12.49, true);
         //create tax exception (wrong) with negative tax
         Optional<TaxException> prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, -10.0, 10.0));
-
         Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
 
+        Assertions.assertThrows(BadConfigurationException.class, () -> receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
+                "Exception expected when negative tax provided.");
+        prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 10.0, -10.0));
+        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
         Assertions.assertThrows(BadConfigurationException.class, () -> receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
                 "Exception expected when negative tax provided.");
     }
