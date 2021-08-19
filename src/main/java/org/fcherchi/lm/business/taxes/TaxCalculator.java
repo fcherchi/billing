@@ -16,21 +16,22 @@ public class TaxCalculator {
     /**
      * Gets the final price adding both import taxes and sales taxes
      * @param rawPrice The price without taxes
-     * @param salesTax The Sales Tax
-     * @param importTax the Import Tax
-     * @param quantity The number of units
+     * @param salesTax The Sales Tax amount
+     * @param importTax the Import Tax amount
      * @return The price plus sales and import taxes
      */
     public double getPricePlusTaxes(double rawPrice, double salesTax, double importTax, double quantity) {
         //validate no negatives
         validateRates(salesTax, importTax);
 
-        BigDecimal rawPricePrecise = new BigDecimal(Double.toString(rawPrice));
-        BigDecimal result = rawPricePrecise
-                .add(new BigDecimal(Double.toString(getTax(rawPrice, importTax))))
-                .add(new BigDecimal(Double.toString(getTax(rawPrice, salesTax))));
+        BigDecimal rawPriceBD = new BigDecimal(Double.toString(rawPrice));
+        BigDecimal rawPriceTimesQuantity = rawPriceBD.multiply(new BigDecimal(Double.toString(quantity)));
 
-        return result.multiply(new BigDecimal(quantity)).doubleValue();
+        BigDecimal result = rawPriceTimesQuantity
+                .add(new BigDecimal(Double.toString(salesTax)))
+                .add(new BigDecimal(Double.toString(importTax)));
+
+        return result.doubleValue();
     }
 
     private void validateRates(double salesTax, double importTax) {
@@ -48,8 +49,11 @@ public class TaxCalculator {
      * @param price The price without taxes
      * @return The Sales tax part to be added to the received price
      */
-    public double getTaxFor(double price, double taxRate) {
-        return getTax(price, taxRate);
+    public double getTaxFor(double price, double taxRate, double quantity) {
+        BigDecimal priceBD = new BigDecimal(Double.toString(price));
+        BigDecimal taxRateBD = new BigDecimal(Double.toString(taxRate));
+
+        return getTax(priceBD, taxRateBD).multiply(new BigDecimal(quantity)).doubleValue();
     }
 
     /**
@@ -58,8 +62,9 @@ public class TaxCalculator {
      * @param taxRate The tax rate
      * @return The tax part of the price
      */
-    private double getTax(double value, double taxRate) {
-        return round(value*taxRate/100);
+    private BigDecimal getTax(BigDecimal value, BigDecimal taxRate) {
+        BigDecimal taxBD = value.multiply(taxRate).divide(new BigDecimal(100));
+        return round(taxBD);
     }
 
     /**
@@ -67,17 +72,17 @@ public class TaxCalculator {
      * @param value the value to round up
      * @return the rounded up value.
      */
-    private double round(double value) {
-        BigDecimal bd = new BigDecimal(Double.toString(value));
+    private BigDecimal round(BigDecimal value) {
+
         //this line truncates the value to 2 decimals
-        bd = bd.setScale(SALES_TAX_ROUND_UP_PRECISION, RoundingMode.FLOOR);
+        value = value.setScale(SALES_TAX_ROUND_UP_PRECISION, RoundingMode.FLOOR);
 
         //only round up factor of the form 0.0x are allowed. In the example the divisible factor is 5
         int divisibleFactor = (int) (ROUNDUP_FACTOR * 100);
 
         //we get the power of 10 we have to use as multiplier in order to remove the decimal separator
         long multiplier = (long) Math.pow(10, SALES_TAX_ROUND_UP_PRECISION);
-        long valueWithoutDecimals = (long) (bd.doubleValue() * multiplier);
+        long valueWithoutDecimals = (long) (value.doubleValue() * multiplier);
 
         //we get the modulus by divide to the divisible factor. i.e. from 1352 we get 2
         int mod = (int) (valueWithoutDecimals % divisibleFactor);
@@ -86,7 +91,7 @@ public class TaxCalculator {
             // go to the next multiple of 5 (from 1352 we do 1352 + (5 - 2)
             valueWithoutDecimals = (int) (valueWithoutDecimals + divisibleFactor - mod);
         }
-        return new BigDecimal(valueWithoutDecimals).divide(new BigDecimal(multiplier)).doubleValue();
+        return new BigDecimal(valueWithoutDecimals).divide(new BigDecimal(multiplier));
     }
 
 }

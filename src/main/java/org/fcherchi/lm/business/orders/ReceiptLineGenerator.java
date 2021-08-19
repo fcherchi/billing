@@ -37,12 +37,17 @@ public class ReceiptLineGenerator {
         double applicableSalesRate = getApplicableSalesRate(basketLine.getProduct().getCategory());
         double applicableImportRate = getApplicableImportRate(basketLine.getProduct().getCategory());
 
+        double salesTax = taxCalculator.getTaxFor(price, applicableSalesRate, basketLine.getQuantity());
+        double importTax = taxCalculator.getTaxFor(price, applicableImportRate, basketLine.getQuantity());
+
+
         double endPrice = taxCalculator.getPricePlusTaxes(price,
-                applicableSalesRate,
-                applicableImportRate,
+                salesTax,
+                importTax,
                 basketLine.getQuantity());
 
-        return new ReceiptLine(basketLine, endPrice);
+        return new ReceiptLine(basketLine, endPrice, importTax, salesTax);
+
     }
 
     /**

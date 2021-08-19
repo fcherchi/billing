@@ -59,4 +59,13 @@ public class TaxException {
     public int hashCode() {
         return Objects.hash(productCategoryId, salesTax, importTax);
     }
+
+    @Override
+    public String toString() {
+        return "TaxException{" +
+                "productCategoryId=" + productCategoryId +
+                ", salesTax=" + salesTax +
+                ", importTax=" + importTax +
+                '}';
+    }
 }

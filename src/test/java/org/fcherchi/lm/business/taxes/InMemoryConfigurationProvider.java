@@ -12,8 +12,8 @@ public class InMemoryConfigurationProvider implements ConfigurationProvider {
     public static final double IMPORT_TAX = 5.0;
 
     private static final int BOOKS_CATEGORY_ID = 1;
-    private static final int HEALTH_CATEGORY_ID = 2;
-    private static final int FOOD_CATEGORY_ID = 3;
+    private static final int HEALTH_CATEGORY_ID = 3;
+    private static final int FOOD_CATEGORY_ID = 4;
 
     public static final double NO_TAX = 0.0;
 

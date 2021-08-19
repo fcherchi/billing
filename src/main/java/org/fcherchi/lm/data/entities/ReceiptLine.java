@@ -9,10 +9,22 @@ public class ReceiptLine {
     /** The price of the basket line after taxes have been applied. */
     private Double priceWithTaxes;
 
+    private Double salesTax;
 
-    public ReceiptLine(BasketLine basketLine, Double priceWithTaxes) {
+    private Double importTax;
+
+    /**
+     * Constructs a new Receipt line
+     * @param basketLine The original basket line
+     * @param priceWithTaxes Price including all taxes and multiplied by quantity
+     * @param salesTax The amount of sales tax (in monetary unit)
+     * @param importTax The amount of import tax (in monetary unit)
+     */
+    public ReceiptLine(BasketLine basketLine, Double priceWithTaxes, Double salesTax, Double importTax) {
         this.basketLine = basketLine;
         this.priceWithTaxes = priceWithTaxes;
+        this.salesTax = salesTax;
+        this.importTax = importTax;
     }
 
 
@@ -20,21 +32,17 @@ public class ReceiptLine {
         return basketLine;
     }
 
-    public Double getPriceWithTaxes() {
-        return priceWithTaxes;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReceiptLine that = (ReceiptLine) o;
-        return Objects.equals(basketLine, that.basketLine) && Objects.equals(priceWithTaxes, that.priceWithTaxes);
+        return basketLine.equals(that.basketLine) && priceWithTaxes.equals(that.priceWithTaxes) && salesTax.equals(that.salesTax) && importTax.equals(that.importTax);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(basketLine, priceWithTaxes);
+        return Objects.hash(basketLine, priceWithTaxes, salesTax, importTax);
     }
 
     @Override
@@ -42,6 +50,20 @@ public class ReceiptLine {
         return "ReceiptLine{" +
                 "basketLine=" + basketLine +
                 ", priceWithTaxes=" + priceWithTaxes +
+                ", salesTax=" + salesTax +
+                ", importTax=" + importTax +
                 '}';
+    }
+
+    public Double getPriceWithTaxes() {
+        return priceWithTaxes;
+    }
+
+    public Double getSalesTax() {
+        return salesTax;
+    }
+
+    public Double getImportTax() {
+        return importTax;
     }
 }

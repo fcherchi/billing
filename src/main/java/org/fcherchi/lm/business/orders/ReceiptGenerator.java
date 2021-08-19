@@ -1,10 +1,6 @@
 package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.data.entities.Receipt;
-import org.fcherchi.lm.data.entities.ReceiptLine;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ReceiptGenerator {
 
@@ -20,10 +16,22 @@ public class ReceiptGenerator {
      * @return the receipt
      */
     public Receipt buildReceipt(Basket basket) {
-        List<ReceiptLine> receiptLines = basket.getLines().values().stream()
-                .map(line -> receiptLineGenerator.buildReceiptLine(line)).collect(Collectors.toList());
+        Receipt receipt = new Receipt();
 
-        //receiptLines.stream().map(line -> line.)
-        return new Receipt();
+        basket.getLines().values().stream()
+                .forEach(line -> receipt.addReceiptLine(receiptLineGenerator.buildReceiptLine(line)));
+
+        double totalTaxes = receipt.getReceiptLines().stream()
+                .map(line -> line.getSalesTax() + line.getImportTax())
+                .reduce(0.0, (a, b) -> a + b);
+
+        double total = receipt.getReceiptLines().stream()
+                .map(line -> line.getPriceWithTaxes())
+                .reduce(0.0, (a, b) -> a + b);
+
+        receipt.setSalesTaxes(totalTaxes);
+        receipt.setTotal(total);
+
+        return receipt;
     }
 }
