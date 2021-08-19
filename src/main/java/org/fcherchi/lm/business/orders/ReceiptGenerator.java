@@ -2,17 +2,22 @@ package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.taxes.ConfigurationProvider;
 import org.fcherchi.lm.business.taxes.TaxCalculator;
-import org.fcherchi.lm.business.taxes.TaxConfiguration;
 import org.fcherchi.lm.data.entities.BasketLine;
+import org.fcherchi.lm.data.entities.ProductCategory;
 import org.fcherchi.lm.data.entities.ReceiptLine;
+import org.fcherchi.lm.data.entities.TaxException;
+
+import java.util.Optional;
+
 /**
  * Generates a Receipt out of a Basket
  */
 public class ReceiptGenerator {
 
-   private final ConfigurationProvider configurationProvider;
+    private static final double NO_TAX = 0.00;
+    private final ConfigurationProvider configurationProvider;
 
-    public ReceiptGenerator(TaxConfiguration taxConfiguration, ConfigurationProvider configurationProvider) {
+    public ReceiptGenerator(ConfigurationProvider configurationProvider) {
        this.configurationProvider = configurationProvider;
     }
 
@@ -31,17 +36,44 @@ public class ReceiptGenerator {
         double price = basketLine.getProduct().getPrice();
         double endPrice = price;
 
-//        if (this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(basketLine.getProduct().getCategory().getId()).isEmpty()) {
-//
-//        }
+        //could get 0.0 if exempt
+        double applicableSalesRate = getApplicableSalesRate(basketLine.getProduct().getCategory());
+        double applicableImportRate = getApplicableImportRate(basketLine.getProduct().getCategory());
 
-        if (basketLine.getProduct().getCategory().getImported()) {
-           endPrice = taxCalculator.getPricePlusTaxes(price,
-                   0.0,
-                   this.configurationProvider.getConfiguration().getImportTax());
-        }
+        endPrice = taxCalculator.getPricePlusTaxes(price,
+                applicableSalesRate,
+                applicableImportRate);
+
         return new ReceiptLine(basketLine, endPrice);
     }
+
+    private double getApplicableImportRate(ProductCategory category) {
+        //shortcut for not imported products. Ignore import tax value in tax exception
+        if (! category.getImported()) {
+            return NO_TAX;
+        }
+        //default tax rate
+        double result = this.configurationProvider.getConfiguration().getImportTax() ;
+        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(category.getId());
+
+        if (taxException.isPresent() && taxException.get().getImportTax().isPresent() ) {
+            result = taxException.get().getImportTax().get();
+        }
+        return result;
+    }
+
+    private double getApplicableSalesRate(ProductCategory category) {
+        //default tax rate
+        double result = this.configurationProvider.getConfiguration().getSalesTax();
+        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(category.getId());
+
+        if (taxException.isPresent() && taxException.get().getSalesTax().isPresent()) {
+            result = taxException.get().getSalesTax().get();
+        }
+        return result;
+    }
+
+
 
 
     /**

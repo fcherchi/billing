@@ -1,5 +1,7 @@
 package org.fcherchi.lm.business.taxes;
 
+import org.fcherchi.lm.data.exceptions.BadConfigurationException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -19,12 +21,24 @@ public class TaxCalculator {
      * @return The price plus sales and import taxes
      */
     public double getPricePlusTaxes(double rawPrice, double salesTax, double importTax) {
+        //validate no negatives
+        validateRates(salesTax, importTax);
+
         BigDecimal rawPricePrecise = new BigDecimal(Double.toString(rawPrice));
         BigDecimal result = rawPricePrecise
                 .add(new BigDecimal(Double.toString(getTax(rawPrice, importTax))))
                 .add(new BigDecimal(Double.toString(getTax(rawPrice, salesTax))));
 
         return result.doubleValue();
+    }
+
+    private void validateRates(double salesTax, double importTax) {
+        if (salesTax < 0) {
+            throw new BadConfigurationException(String.format("Negative Sales Tax Rate detected in configuration: '%.2f')", salesTax));
+        }
+        if (importTax < 0) {
+            throw new BadConfigurationException(String.format("Negative Import Tax Rate detected in configuration: '%.2f')", importTax));
+        }
     }
 
 
