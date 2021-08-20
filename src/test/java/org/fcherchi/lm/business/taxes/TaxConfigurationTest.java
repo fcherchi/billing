@@ -1,7 +1,7 @@
 package org.fcherchi.lm.business.taxes;
 
-import org.fcherchi.lm.data.entities.TaxException;
-import org.fcherchi.lm.data.exceptions.BadConfigurationException;
+import org.fcherchi.lm.entities.TaxException;
+import org.fcherchi.lm.business.exceptions.BadConfigurationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

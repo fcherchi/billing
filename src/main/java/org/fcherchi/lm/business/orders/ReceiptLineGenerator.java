@@ -2,10 +2,10 @@ package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.taxes.ConfigurationProvider;
 import org.fcherchi.lm.business.taxes.TaxCalculator;
-import org.fcherchi.lm.data.entities.BasketLine;
-import org.fcherchi.lm.data.entities.ProductCategory;
-import org.fcherchi.lm.data.entities.ReceiptLine;
-import org.fcherchi.lm.data.entities.TaxException;
+import org.fcherchi.lm.entities.BasketLine;
+import org.fcherchi.lm.entities.ProductCategory;
+import org.fcherchi.lm.entities.ReceiptLine;
+import org.fcherchi.lm.entities.TaxException;
 
 import java.util.Optional;
 

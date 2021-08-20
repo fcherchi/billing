@@ -1,4 +1,4 @@
-package org.fcherchi.lm.data.entities;
+package org.fcherchi.lm.entities;
 
 import java.util.Objects;
 

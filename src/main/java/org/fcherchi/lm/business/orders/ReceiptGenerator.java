@@ -1,7 +1,7 @@
 package org.fcherchi.lm.business.orders;
 
-import org.fcherchi.lm.data.entities.Receipt;
-import org.fcherchi.lm.data.entities.ReceiptLine;
+import org.fcherchi.lm.entities.Receipt;
+import org.fcherchi.lm.entities.ReceiptLine;
 
 import java.math.BigDecimal;
 

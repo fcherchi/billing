@@ -2,7 +2,7 @@ package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.taxes.ConfigurationProvider;
 import org.fcherchi.lm.business.taxes.TaxConfiguration;
-import org.fcherchi.lm.data.entities.*;
+import org.fcherchi.lm.entities.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

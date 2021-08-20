@@ -1,6 +1,6 @@
 package org.fcherchi.lm.business.taxes;
 
-import org.fcherchi.lm.data.entities.TaxException;
+import org.fcherchi.lm.entities.TaxException;
 
 /**
  * Implementation that hard-codes the configuration in memory. To be replaced by a file config.

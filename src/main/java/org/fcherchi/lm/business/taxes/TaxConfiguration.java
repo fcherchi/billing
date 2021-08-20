@@ -1,7 +1,7 @@
 package org.fcherchi.lm.business.taxes;
 
-import org.fcherchi.lm.data.entities.TaxException;
-import org.fcherchi.lm.data.exceptions.BadConfigurationException;
+import org.fcherchi.lm.entities.TaxException;
+import org.fcherchi.lm.business.exceptions.BadConfigurationException;
 
 import java.util.HashMap;
 import java.util.Map;

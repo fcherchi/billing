@@ -1,5 +1,5 @@
 
-package org.fcherchi.lm.data.entities;
+package org.fcherchi.lm.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

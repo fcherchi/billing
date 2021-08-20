@@ -1,8 +1,8 @@
 package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
-import org.fcherchi.lm.data.entities.BasketLine;
-import org.fcherchi.lm.data.entities.Product;
+import org.fcherchi.lm.entities.BasketLine;
+import org.fcherchi.lm.entities.Product;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

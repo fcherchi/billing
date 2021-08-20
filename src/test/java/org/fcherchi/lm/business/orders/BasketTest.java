@@ -1,7 +1,7 @@
 package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.business.exceptions.DataInconsistencyException;
-import org.fcherchi.lm.data.entities.Product;
+import org.fcherchi.lm.entities.Product;
 import org.fcherchi.lm.factory.EntitiesFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

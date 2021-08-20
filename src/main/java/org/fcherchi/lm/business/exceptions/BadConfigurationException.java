@@ -1,4 +1,4 @@
-package org.fcherchi.lm.data.exceptions;
+package org.fcherchi.lm.business.exceptions;
 
 /**
  * To be thrown when bad configuration has been detected

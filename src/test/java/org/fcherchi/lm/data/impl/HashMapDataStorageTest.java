@@ -2,8 +2,8 @@ package org.fcherchi.lm.data.impl;
 
 import org.fcherchi.lm.business.taxes.ProductCategoryValidator;
 import org.fcherchi.lm.data.DataStorage;
-import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.data.entities.ProductCategory;
+import org.fcherchi.lm.entities.Product;
+import org.fcherchi.lm.entities.ProductCategory;
 import org.fcherchi.lm.factory.EntitiesFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

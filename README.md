@@ -2,15 +2,17 @@
 ## High Level Description
 
 ### Code Organization
-The code has been organized in one module with two main packages:
+The code has been organized in one module with three main packages:
 - Business:
 
-    Contains the **business logic** for building orders and receipts.
-
+    Contains the **business logic** for building orders and receipts. It has no knowledge of the Data package.
 
 - Data:
 
-    Contains the **entities** (POJOs) and the Data Storage mechanism.  
+    Contains the Data Storage mechanism.  
+- Entities 
+  
+  Contains the **entities** (POJOs). Entities are known both in the *upper* Business layer and in the *lower* Data layer. 
 
 
 ### Design Principles
@@ -43,8 +45,8 @@ To compile and test use maven as in `mvn clean install`. This should execute the
 
 If preferred, from the IDE execute the test `ReceiptGeneratorTest.testReceiptCreation` to see the expected output.
 
-Note: A WIP investigation branch with an application reading the configuration from a JSON file is in the repo,
-but not yet a real implementation with TDD, just a POC.
+*Note: A WIP investigation branch with an application reading the configuration from a JSON file is in the repo,
+but not yet a real implementation with TDD, just a POC.*
 
 
  

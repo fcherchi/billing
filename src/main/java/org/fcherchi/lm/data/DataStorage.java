@@ -1,7 +1,7 @@
 package org.fcherchi.lm.data;
 
-import org.fcherchi.lm.data.entities.Product;
-import org.fcherchi.lm.data.entities.ProductCategory;
+import org.fcherchi.lm.entities.Product;
+import org.fcherchi.lm.entities.ProductCategory;
 
 import java.util.Optional;
 
