@@ -7,4 +7,8 @@ public class BadConfigurationException extends RuntimeException {
     public BadConfigurationException (String message) {
         super(message);
     }
+
+    public BadConfigurationException (String message, Throwable inner) {
+        super(message, inner);
+    }
 }
