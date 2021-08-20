@@ -40,6 +40,7 @@ public class TaxConfiguration {
      */
     public TaxConfiguration(double salesTax, double importTax, ProductCategoryValidator productCategoryValidator) {
         validateRates(salesTax, importTax);
+        validateProductCategoryValidator(productCategoryValidator);
         this.salesTax = salesTax;
         this.importTax = importTax;
         this.productCategoryValidator = productCategoryValidator;
@@ -74,6 +75,15 @@ public class TaxConfiguration {
                     taxException.getProductCategoryId()));
         }
         this.taxExceptions.put(taxException.getProductCategoryId(), taxException);
+    }
+
+    /**
+     * Check product category validator is not null
+     */
+    private void validateProductCategoryValidator(ProductCategoryValidator productCategoryValidator) {
+        if (productCategoryValidator == null) {
+            throw new IllegalArgumentException("Product Category Validator is mandatory. If you don't want any validation please provide an expression like 'productCategoryId -> true'");
+        }
     }
 
     /**
