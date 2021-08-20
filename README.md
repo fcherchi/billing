@@ -38,12 +38,13 @@ code in POJOs such as `hashcode`, `equals` or `toString` methods
 
 ## How to Run 
 An application as such (java executable) is not being provided, instead, the execution could be done using the Unit Tests.
-(However, a WIP branch with an application reading the configuration from a JSON file is in the repo)
 
 To compile and test use maven as in `mvn clean install`. This should execute the tests and show the output in the console.
 
 If preferred, from the IDE execute the test `ReceiptGeneratorTest.testReceiptCreation` to see the expected output.
 
+Note: A WIP investigation branch with an application reading the configuration from a JSON file is in the repo,
+but not yet a real implementation with TDD, just a POC.
 
 
  
