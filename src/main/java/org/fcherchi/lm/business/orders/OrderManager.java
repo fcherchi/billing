@@ -32,7 +32,7 @@ public class OrderManager {
      * @param itemId PK of the item.
      * @param quantity Amount of units to be added.
      */
-    public void addItem(Integer itemId, Double quantity) {
+    public void addItemToBasket(Integer itemId, Double quantity) {
         Optional<Product> prod = this.dataStorage.getProductById(itemId);
         if (prod.isEmpty()) {
             throw new DataInconsistencyException(String.format("Product '%d' not found in catalog", itemId));

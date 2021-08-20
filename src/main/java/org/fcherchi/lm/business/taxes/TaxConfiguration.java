@@ -33,12 +33,13 @@ public class TaxConfiguration {
     private final ProductCategoryValidator productCategoryValidator;
 
     /**
-     * Build the tax confguration.
+     * Build the tax configuration.
      * @param salesTax the default sales tax
      * @param importTax the default import tax
      * @param productCategoryValidator is used to validate if a certain category is "configurable" with a different tax
      */
     public TaxConfiguration(double salesTax, double importTax, ProductCategoryValidator productCategoryValidator) {
+        validateRates(salesTax, importTax);
         this.salesTax = salesTax;
         this.importTax = importTax;
         this.productCategoryValidator = productCategoryValidator;
@@ -63,7 +64,7 @@ public class TaxConfiguration {
         if (this.taxExceptions == null) {
             this.taxExceptions = new HashMap<>();
         }
-        validateRates(taxException.getSalesTax(), taxException.getImportTax());
+        validateRates(taxException.getSalesTax().orElse(0.0), taxException.getImportTax().orElse(0.0));
         if (this.taxExceptions.containsKey(taxException.getProductCategoryId())) {
             throw new BadConfigurationException(String.format("Found duplicate on tax exception with Product Category Id '%d'",
                     taxException.getProductCategoryId()));
@@ -77,17 +78,15 @@ public class TaxConfiguration {
 
     /**
      * Throw exception if rates are negative
-     * @param salesTax the sales tax rate
-     * @param importTax the import tax rate
+     * @param salesTaxRate the sales tax rate
+     * @param importTaxRate the import tax rate
      */
-    private void validateRates(Optional<Double> salesTax, Optional<Double> importTax) {
-        salesTax.ifPresent(this::validateRate);
-        importTax.ifPresent(this::validateRate);
-    }
-
-    private void validateRate(Double rate) {
-        if (rate < 0) {
-            throw new BadConfigurationException(String.format("Negative Tax Rate detected in configuration: '%.2f')", rate));
+    private void validateRates(double salesTaxRate, double importTaxRate) {
+        if (salesTaxRate < 0) {
+            throw new BadConfigurationException(String.format("Negative Sales Tax Rate detected in configuration: '%.2f')", salesTaxRate));
+        }
+        if (importTaxRate < 0) {
+            throw new BadConfigurationException(String.format("Negative Import Tax Rate detected in configuration: '%.2f')", importTaxRate));
         }
     }
 

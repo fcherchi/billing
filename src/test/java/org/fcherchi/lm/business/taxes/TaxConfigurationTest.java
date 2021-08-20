@@ -58,5 +58,13 @@ class TaxConfigurationTest {
                         .addTaxException(TaxException.buildWithImportTax(1, -10.0)),
                 "Exception expected when negative tax provided.");
 
+        Assertions.assertThrows(BadConfigurationException.class, () ->
+                new TaxConfiguration(-10.0, 5.0, productCategoryValidator),
+                "Exception expected when negative tax provided.");
+        Assertions.assertThrows(BadConfigurationException.class, () ->
+                new TaxConfiguration(10.0, -5.0, productCategoryValidator),
+                "Exception expected when negative tax provided.");
+
+
     }
 }

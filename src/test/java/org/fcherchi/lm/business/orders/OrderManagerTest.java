@@ -29,7 +29,7 @@ public class OrderManagerTest {
         Mockito.when(dataStorage.getProductById(1)).thenReturn(product1);
         Mockito.when(basket.getTotalItemsInBasket()).thenReturn(1.0);
 
-        orderManager.addItem(1, 1.0);
+        orderManager.addItemToBasket(1, 1.0);
         Mockito.verify(basket).addItemsToBasket(product1.get(), 1.0);
         Assertions.assertEquals(1, orderManager.getTotalItemsInBasket(), "Order manager should add items to basket");
     }
@@ -40,7 +40,7 @@ public class OrderManagerTest {
         Mockito.when(dataStorage.getProductById(1)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(DataInconsistencyException.class, () ->
-                orderManager.addItem(1, 1.0), "Exception expected if wrong product id is provided");
+                orderManager.addItemToBasket(1, 1.0), "Exception expected if wrong product id is provided");
     }
 
 }
