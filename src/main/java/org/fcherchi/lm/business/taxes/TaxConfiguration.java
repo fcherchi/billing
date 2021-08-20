@@ -7,28 +7,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Contains the configuration of the taxation scheme
+ */
 public class TaxConfiguration {
 
     /**
      * Default Sales Tax
      */
-    private double salesTax;
+    private final double salesTax;
 
     /**
      * Default Import Tax
      */
-    private double importTax;
+    private final double importTax;
 
     /**
-     * List of exceptions (including exemptions). ProductCategory Id is the key
+     * List of tax exceptions (including exemptions). Product Category Id is the key
      */
-    private Map<Integer, TaxException> exceptions;
+    private Map<Integer, TaxException> taxExceptions;
 
     /**
      * IoC over the validation for Product Category
      */
     private final ProductCategoryValidator productCategoryValidator;
 
+    /**
+     * Build the tax confguration.
+     * @param salesTax the default sales tax
+     * @param importTax the default import tax
+     * @param productCategoryValidator is used to validate if a certain category is "configurable" with a different tax
+     */
     public TaxConfiguration(double salesTax, double importTax, ProductCategoryValidator productCategoryValidator) {
         this.salesTax = salesTax;
         this.importTax = importTax;
@@ -46,15 +55,16 @@ public class TaxConfiguration {
     }
 
     /**
-     * Adds a Tax Exception to the configuration. No duplicates are allowed.
+     * Adds a Tax Exception to the configuration. No duplicates are allowed. No negative tax rate allowed.
      *
-     * @param taxException
+     * @param taxException The taxException to be added
      */
     public void addTaxException(TaxException taxException) {
-        if (this.exceptions == null) {
-            this.exceptions = new HashMap<>();
+        if (this.taxExceptions == null) {
+            this.taxExceptions = new HashMap<>();
         }
-        if (this.exceptions.containsKey(taxException.getProductCategoryId())) {
+        validateRates(taxException.getSalesTax(), taxException.getImportTax());
+        if (this.taxExceptions.containsKey(taxException.getProductCategoryId())) {
             throw new BadConfigurationException(String.format("Found duplicate on tax exception with Product Category Id '%d'",
                     taxException.getProductCategoryId()));
         }
@@ -62,15 +72,31 @@ public class TaxConfiguration {
             throw new BadConfigurationException(String.format("Product Category '%d' does not exist or it is not configurable.",
                     taxException.getProductCategoryId()));
         }
-        this.exceptions.put(taxException.getProductCategoryId(), taxException);
+        this.taxExceptions.put(taxException.getProductCategoryId(), taxException);
+    }
+
+    /**
+     * Throw exception if rates are negative
+     * @param salesTax the sales tax rate
+     * @param importTax the import tax rate
+     */
+    private void validateRates(Optional<Double> salesTax, Optional<Double> importTax) {
+        salesTax.ifPresent(this::validateRate);
+        importTax.ifPresent(this::validateRate);
+    }
+
+    private void validateRate(Double rate) {
+        if (rate < 0) {
+            throw new BadConfigurationException(String.format("Negative Tax Rate detected in configuration: '%.2f')", rate));
+        }
     }
 
     /**
      * Retrieves the TaxException by Product Category or Empty if it is not found.
-     * @param categoryId
-     * @return
+     * @param categoryId The category id to look for
+     * @return An optional with the category ID provided or an Optional.Empty if it could not be found
      */
-    public Optional<TaxException> getExceptionByProductCategoryId(int categoryId) {
-        return Optional.ofNullable(this.exceptions.get(categoryId));
+    public Optional<TaxException> getTaxExceptionByProductCategoryId(int categoryId) {
+        return Optional.ofNullable(this.taxExceptions.get(categoryId));
     }
 }

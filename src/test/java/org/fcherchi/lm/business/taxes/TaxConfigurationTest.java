@@ -23,7 +23,7 @@ class TaxConfigurationTest {
         TaxConfiguration taxConfiguration = new TaxConfiguration(10.0, 5.0, productCategoryValidator);
         TaxException taxException = TaxException.buildWithSalesTax(1, 0.0);
         taxConfiguration.addTaxException(taxException);
-        Optional<TaxException> actual = taxConfiguration.getExceptionByProductCategoryId(1);
+        Optional<TaxException> actual = taxConfiguration.getTaxExceptionByProductCategoryId(1);
         Assertions.assertEquals(taxException, actual.get(), "Expected same tax exception");
     }
 
@@ -45,6 +45,18 @@ class TaxConfigurationTest {
 
         Assertions.assertThrows(BadConfigurationException.class, () -> taxConfiguration
                 .addTaxException(TaxException.buildWithSalesTax(1, 0.0)),
-                "No duplicates should be allowed in configuration of tax exceptions");
+                "Tax exception cannot be configured");
+    }
+    @Test
+    void testNegativeTaxNotAccepted() {
+        TaxConfiguration taxConfiguration = new TaxConfiguration(10.0, 5.0, productCategoryValidator);
+
+        Assertions.assertThrows(BadConfigurationException.class, () -> taxConfiguration
+                        .addTaxException(TaxException.buildWithSalesTax(1, -10.0)),
+                "Exception expected when negative tax provided.");
+        Assertions.assertThrows(BadConfigurationException.class, () -> taxConfiguration
+                        .addTaxException(TaxException.buildWithImportTax(1, -10.0)),
+                "Exception expected when negative tax provided.");
+
     }
 }

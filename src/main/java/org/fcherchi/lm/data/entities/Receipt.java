@@ -9,12 +9,39 @@ import java.util.Set;
  */
 public class Receipt {
 
-    public Set<ReceiptLine> getReceiptLines() {
-        return receiptLines;
+    /** Lines with taxes included */
+    private final Set<ReceiptLine> receiptLines = new LinkedHashSet<>();
+
+    /** Calculated Sales Taxes */
+    private double salesTaxes;
+
+    /** Calculated total including sales */
+    private double total;
+
+    /**
+     * Adds the given receipt line to the collection
+     * @param receiptLine the receipt line to add
+     */
+    public void addReceiptLine(ReceiptLine receiptLine) {
+        this.receiptLines.add(receiptLine);
     }
 
-    /** Lines with taxes included */
-    private Set<ReceiptLine> receiptLines = new LinkedHashSet<>();
+    /**
+     * Generates the receipt as in the exercise example
+     * @return The string to be printed
+     */
+    public String prettyPrint() {
+        StringBuilder builder = new StringBuilder();
+        this.receiptLines.forEach(line -> builder.append(String.format("%.0f %s: %.2f\r\n",
+                line.getBasketLine().getQuantity(),
+                line.getBasketLine().getProduct().getDescription(),
+                line.getPriceWithTaxes())));
+        builder.append(String.format("Sales Taxes: %.2f%n", this.salesTaxes));
+        builder.append(String.format("Total: %.2f%n", this.total));
+        return builder.toString();
+    }
+
+    //Getter and Setters
 
     public double getSalesTaxes() {
         return salesTaxes;
@@ -32,18 +59,8 @@ public class Receipt {
         this.total = total;
     }
 
-    /** Calculated Sales Taxes */
-    private double salesTaxes;
-
-    /** Calculated total including sales */
-    private double total;
-
-    /**
-     * Adds the given receipt line to the collection
-     * @param receiptLine the receipt line to add
-     */
-    public void addReceiptLine(ReceiptLine receiptLine) {
-        this.receiptLines.add(receiptLine);
+    public Set<ReceiptLine> getReceiptLines() {
+        return receiptLines;
     }
 
     @Override
@@ -68,18 +85,5 @@ public class Receipt {
                 '}';
     }
 
-    /**
-     * Prints the receipt as in the exercise example
-     * @return
-     */
-    public String prettyPrint() {
-        StringBuilder builder = new StringBuilder();
-        this.receiptLines.stream().forEach(line -> builder.append(String.format("%.0f %s: %.2f\r\n",
-                line.getBasketLine().getQuantity(),
-                line.getBasketLine().getProduct().getDescription(),
-                line.getPriceWithTaxes())));
-        builder.append(String.format("Sales Taxes: %.2f\r\n", this.salesTaxes));
-        builder.append(String.format("Total: %.2f\r\n", this.total));
-        return builder.toString();
-    }
+
 }

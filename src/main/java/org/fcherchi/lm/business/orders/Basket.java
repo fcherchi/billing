@@ -11,9 +11,6 @@ import java.util.Map;
  * Represents a Basket or Shopping Cart
  */
 public class Basket {
-
-
-
     /** Contains the lines in the basket */
     private final Map<Integer, BasketLine> lines = new LinkedHashMap<>();
 
@@ -32,13 +29,13 @@ public class Basket {
     }
 
     /**
-         * Returns the total number of items currently in the basket.
-         * @return
-         */
+     *
+     * @return the total number of items currently in the basket.
+     */
     public double getTotalItemsInBasket() {
         return this.lines.values().stream()
-                .map(line -> line.getQuantity())
-                .reduce(0.0, (a, b) -> a + b);
+                .map(BasketLine::getQuantity)
+                .reduce(0.0, Double::sum);
     }
 
     /** Get the lines in the Basket */

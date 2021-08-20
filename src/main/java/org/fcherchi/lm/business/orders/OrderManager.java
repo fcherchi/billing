@@ -12,21 +12,26 @@ import java.util.Optional;
 public class OrderManager {
 
     /** Stores the data in memory. Kind of data connection */
-    private DataStorage dataStorage;
+    private final DataStorage dataStorage;
 
     /** Contains the items while shopping */
-    private Basket basket;
+    private final Basket basket;
 
+    /**
+     * Creates an order manager with the given dependencies
+     * @param dataStorage Represents the connection with the data persistence
+     * @param basket The basket or shopping cart
+     */
     public OrderManager(DataStorage dataStorage, Basket basket) {
         this.dataStorage = dataStorage;
         this.basket = basket;
     }
 
     /**
-         * Adds an item to the basket.
-         * @param itemId PK of the item.
-         * @param quantity Amount of units to be added.
-         */
+     * Adds an item to the basket.
+     * @param itemId PK of the item.
+     * @param quantity Amount of units to be added.
+     */
     public void addItem(Integer itemId, Double quantity) {
         Optional<Product> prod = this.dataStorage.getProductById(itemId);
         if (prod.isEmpty()) {
@@ -36,9 +41,9 @@ public class OrderManager {
     }
 
     /**
-         * Returns the amount of items inside the basket.
-         * @return
-         */
+     *
+     * @return the amount of items inside the basket.
+     */
     public double getTotalItemsInBasket() {
         return this.basket.getTotalItemsInBasket();
     }

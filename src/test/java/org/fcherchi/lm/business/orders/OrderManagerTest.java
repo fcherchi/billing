@@ -39,9 +39,8 @@ public class OrderManagerTest {
         OrderManager orderManager = new OrderManager(dataStorage, basket);
         Mockito.when(dataStorage.getProductById(1)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(DataInconsistencyException.class, () -> {
-            orderManager.addItem(1, 1.0);
-        }, "Exception expected if wrong product id is provided");
+        Assertions.assertThrows(DataInconsistencyException.class, () ->
+                orderManager.addItem(1, 1.0), "Exception expected if wrong product id is provided");
     }
 
 }

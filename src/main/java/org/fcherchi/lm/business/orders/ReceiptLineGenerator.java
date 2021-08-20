@@ -17,6 +17,10 @@ public class ReceiptLineGenerator {
     private static final double NO_TAX = 0.00;
     private final ConfigurationProvider configurationProvider;
 
+    /**
+     * Creates the generator for receipt files
+     * @param configurationProvider The dependency ConfigurationProvider (can get config)
+     */
     public ReceiptLineGenerator(ConfigurationProvider configurationProvider) {
        this.configurationProvider = configurationProvider;
     }
@@ -62,7 +66,7 @@ public class ReceiptLineGenerator {
         }
         //default tax rate
         double result = this.configurationProvider.getConfiguration().getImportTax() ;
-        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(category.getId());
+        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getTaxExceptionByProductCategoryId(category.getId());
 
         if (taxException.isPresent() && taxException.get().getImportTax().isPresent() ) {
             result = taxException.get().getImportTax().get();
@@ -70,10 +74,15 @@ public class ReceiptLineGenerator {
         return result;
     }
 
+    /**
+     * Gets the applicable sales rate if any
+     * @param category The category
+     * @return The import tax rate as per config.
+     */
     private double getApplicableSalesRate(ProductCategory category) {
         //default tax rate
         double result = this.configurationProvider.getConfiguration().getSalesTax();
-        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getExceptionByProductCategoryId(category.getId());
+        Optional<TaxException> taxException = this.configurationProvider.getConfiguration().getTaxExceptionByProductCategoryId(category.getId());
 
         if (taxException.isPresent() && taxException.get().getSalesTax().isPresent()) {
             result = taxException.get().getSalesTax().get();

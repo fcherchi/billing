@@ -5,13 +5,18 @@ import java.util.Objects;
 public class ProductCategory {
 
     /** Unique identifier of the category */
-    private Integer id;
+    private final Integer id;
     /** Description of the product */
-    private String description;
+    private final String description;
     /** Is the article imported */
-    private Boolean isImported;
+    private final Boolean isImported;
 
-
+    /**
+     * Creates a product category instance
+     * @param id The id of the product category
+     * @param description The description
+     * @param isImported True if is an imported product (used to calculate taxes)
+     */
     public ProductCategory(Integer id, String description, Boolean isImported) {
         this.id = id;
         this.description = description;

@@ -7,12 +7,16 @@ import org.fcherchi.lm.data.entities.ProductCategory;
 
 import java.util.*;
 
+/**
+ * Implementation of DataStorage with a HashMap in memory to store the info.
+ * Implements ProductCategoryValidator which main purpose is to inform if a category can be configured (if exist in database can be configured)
+ */
 public class HashMapDataStorage implements DataStorage, ProductCategoryValidator {
 
     /** The map holding the info */
-    private Map<Integer, Product> products = new HashMap<>();
+    private final Map<Integer, Product> products = new HashMap<>();
 
-    private Map<Integer, ProductCategory> categories = new HashMap<>();
+    private final Map<Integer, ProductCategory> categories = new HashMap<>();
 
     @Override
     public void addProductToCatalog(Product productToAdd) {

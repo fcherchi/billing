@@ -1,13 +1,21 @@
 package org.fcherchi.lm.business.orders;
 
 import org.fcherchi.lm.data.entities.Receipt;
+import org.fcherchi.lm.data.entities.ReceiptLine;
 
 import java.math.BigDecimal;
 
+/**
+ * Build the receipt information out of a Basket information
+ */
 public class ReceiptGenerator {
 
     private final ReceiptLineGenerator receiptLineGenerator;
 
+    /**
+     * Creates a Receipt Generator
+     * @param receiptLineGenerator the line generator
+     */
     public ReceiptGenerator(ReceiptLineGenerator receiptLineGenerator) {
         this.receiptLineGenerator = receiptLineGenerator;
     }
@@ -20,16 +28,16 @@ public class ReceiptGenerator {
     public Receipt buildReceipt(Basket basket) {
         Receipt receipt = new Receipt();
 
-        basket.getLines().values().stream()
+        basket.getLines().values()
                 .forEach(line -> receipt.addReceiptLine(receiptLineGenerator.buildReceiptLine(line)));
 
         double totalTaxes = receipt.getReceiptLines().stream()
                 .map(line -> addSafe(line.getSalesTax(), line.getImportTax()))
-                .reduce(0.0, (a, b) -> addSafe(a, b));
+                .reduce(0.0, this::addSafe);
 
         double total = receipt.getReceiptLines().stream()
-                .map(line -> line.getPriceWithTaxes())
-                .reduce(0.0, (a, b) -> addSafe(a, b));
+                .map(ReceiptLine::getPriceWithTaxes)
+                .reduce(0.0, this::addSafe);
 
         receipt.setSalesTaxes(totalTaxes);
         receipt.setTotal(total);
@@ -37,6 +45,12 @@ public class ReceiptGenerator {
         return receipt;
     }
 
+    /**
+     * Adds using Big Decimal to preserve precision
+     * @param a first term to add
+     * @param b second term to add
+     * @return result
+     */
     private double addSafe(double a, double b) {
         return new BigDecimal(Double.toString(a)).add(new BigDecimal(Double.toString(b))).doubleValue();
     }

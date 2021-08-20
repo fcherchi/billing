@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 class BasketTest {
 
-    private Basket basket = new Basket();
+    private final Basket basket = new Basket();
 
     @Test
     void addBasketLine() {
@@ -20,9 +20,8 @@ class BasketTest {
 
     @Test
     void noNegativeQuantityAllowed() {
-        Assertions.assertThrows(DataInconsistencyException.class, () -> {
-            basket.addItemsToBasket(EntitiesFactory.createProductNoTax(1), -1.0);
-        }, "Expected Exception if amount is negative");
+        Assertions.assertThrows(DataInconsistencyException.class, () ->
+                basket.addItemsToBasket(EntitiesFactory.createProductNoTax(1), -1.0), "Expected Exception if amount is negative");
     }
 
     @Test

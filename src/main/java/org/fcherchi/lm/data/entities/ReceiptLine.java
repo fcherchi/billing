@@ -2,16 +2,19 @@ package org.fcherchi.lm.data.entities;
 
 import java.util.Objects;
 
+/**
+ * Represents a receipt line (contains a basket line and all calculated taxes values)
+ */
 public class ReceiptLine {
 
     /** Composed, the Basket Line that created this receipt line. */
-    private BasketLine basketLine;
+    private final BasketLine basketLine;
     /** The price of the basket line after taxes have been applied. */
-    private Double priceWithTaxes;
-
-    private Double salesTax;
-
-    private Double importTax;
+    private final Double priceWithTaxes;
+    /** The calculated sales tax */
+    private final Double salesTax;
+    /** The calculated import tax */
+    private final Double importTax;
 
     /**
      * Constructs a new Receipt line

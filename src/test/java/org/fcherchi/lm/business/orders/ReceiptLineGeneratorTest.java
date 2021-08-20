@@ -3,7 +3,6 @@ package org.fcherchi.lm.business.orders;
 import org.fcherchi.lm.business.taxes.ConfigurationProvider;
 import org.fcherchi.lm.business.taxes.TaxConfiguration;
 import org.fcherchi.lm.data.entities.*;
-import org.fcherchi.lm.data.exceptions.BadConfigurationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +36,7 @@ public class ReceiptLineGeneratorTest {
         //is imported false
         Product book = getProductWithPrice(12.49, false);
         Optional<TaxException> bookTaxException = Optional.of(TaxException.buildWithSalesTax(1, 0.0));
-        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
+        Mockito.when(this.mockConfiguration.getTaxExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
         ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(book, 1.0));
         Assertions.assertEquals(12.49, actual.getPriceWithTaxes(), "Price for a not imported book should be the same.");
     }
@@ -50,7 +49,7 @@ public class ReceiptLineGeneratorTest {
         //create exception including sales tag
         Optional<TaxException> bookTaxException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 0.0, 5.0));
 
-        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
+        Mockito.when(this.mockConfiguration.getTaxExceptionByProductCategoryId(1)).thenReturn(bookTaxException);
         ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(book, 1.0));
         Assertions.assertEquals(12.49, actual.getPriceWithTaxes(), "Price for a not imported book should be the same.");
     }
@@ -64,24 +63,9 @@ public class ReceiptLineGeneratorTest {
         //create exception including sales tag
         Optional<TaxException> prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 10.0, 10.0));
 
-        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
+        Mockito.when(this.mockConfiguration.getTaxExceptionByProductCategoryId(1)).thenReturn(prodException);
         ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0));
         Assertions.assertEquals(14.99, actual.getPriceWithTaxes(), "Price for product should be 14.99 (12.49 + 1.25 + 1.25).");
-    }
-
-    @Test
-    void testNegativeTaxNotAccepted() {
-        Product product = getProductWithPrice(12.49, true);
-        //create tax exception (wrong) with negative tax
-        Optional<TaxException> prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, -10.0, 10.0));
-        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
-
-        Assertions.assertThrows(BadConfigurationException.class, () -> receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
-                "Exception expected when negative tax provided.");
-        prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 10.0, -10.0));
-        Mockito.when(this.mockConfiguration.getExceptionByProductCategoryId(1)).thenReturn(prodException);
-        Assertions.assertThrows(BadConfigurationException.class, () -> receiptLineGenerator.buildReceiptLine(new BasketLine(product, 1.0)),
-                "Exception expected when negative tax provided.");
     }
 
     private Product getProductWithPrice(double price, boolean isImported) {

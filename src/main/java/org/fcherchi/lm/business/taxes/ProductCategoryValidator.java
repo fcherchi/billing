@@ -8,7 +8,7 @@ public interface ProductCategoryValidator {
     /**
      * Implementors should return true when product category can be configured with tax exceptions
      * @param productCategoryId The product Category Id to verify
-     * @return
+     * @return true when product category can be configured with tax exceptions, false if product cannot be configured (for example because it is not known(
      */
     boolean isProductCategoryConfigurable(int productCategoryId);
 }

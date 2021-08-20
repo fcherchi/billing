@@ -8,24 +8,30 @@ public class Product {
     /**
      * Unique identifier of the product
      */
-    private Integer id;
+    private final Integer id;
 
     /**
      * Description of the product
      */
-    private String description;
+    private final String description;
 
     /**
      * Category of the product
      */
-    private ProductCategory category;
+    private final ProductCategory category;
 
     /**
      * Price
      */
-    private Double price;
+    private final Double price;
 
-
+    /**
+     * Creates a product instance
+     * @param id The product Id
+     * @param description The Description
+     * @param category Reference to the category
+     * @param price The price
+     */
     public Product(Integer id, String description, ProductCategory category, Double price) {
         this.id = id;
         this.description = description;
