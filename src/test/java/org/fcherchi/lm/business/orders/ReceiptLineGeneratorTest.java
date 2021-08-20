@@ -58,8 +58,6 @@ public class ReceiptLineGeneratorTest {
     void testExceptionCanCombineImportAndSalesReduction() {
         //is imported true
         Product product = getProductWithPrice(12.49, true);
-
-
         //create exception including sales tag
         Optional<TaxException> prodException = Optional.of(TaxException.buildWithSalesAndImportTax(1, 10.0, 10.0));
 
@@ -85,5 +83,18 @@ public class ReceiptLineGeneratorTest {
         Product importedPerfume = getProductWithPrice(47.50, true);
         ReceiptLine actual = receiptLineGenerator.buildReceiptLine(new BasketLine(importedPerfume, 1.0));
         Assertions.assertEquals(54.65, actual.getPriceWithTaxes(), "Price for a imported perfume should apply sales and import tax rate.");
+    }
+
+    @Test
+    void testMalformedBasketLineProduceException() {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                ()-> receiptLineGenerator.buildReceiptLine(new BasketLine(null, 1.0)));
+    }
+
+    @Test
+    void testMalformedProductBasketLineProduceException() {
+        Product prod = new Product(1, "foo", null, 0);
+        Assertions.assertThrows(IllegalArgumentException.class,
+                ()-> receiptLineGenerator.buildReceiptLine(new BasketLine(prod, 1.0)));
     }
 }

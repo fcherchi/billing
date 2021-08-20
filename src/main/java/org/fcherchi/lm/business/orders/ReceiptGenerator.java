@@ -26,6 +26,8 @@ public class ReceiptGenerator {
      * @return the receipt
      */
     public Receipt buildReceipt(Basket basket) {
+        if (basket == null) throw new IllegalArgumentException("Basket is mandatory to build a receipt");
+
         Receipt receipt = new Receipt();
 
         basket.getLines().values()
@@ -39,7 +41,7 @@ public class ReceiptGenerator {
                 .map(ReceiptLine::getPriceWithTaxes)
                 .reduce(0.0, this::addSafe);
 
-        receipt.setSalesTaxes(totalTaxes);
+        receipt.setTaxes(totalTaxes);
         receipt.setTotal(total);
 
         return receipt;

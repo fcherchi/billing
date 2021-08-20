@@ -19,9 +19,12 @@ public class Basket {
          * @param product The product of the item to add.
          * @param  quantity The quantity. Only >=0 allowed.
          */
-    public void addItemsToBasket(Product product, Double quantity) {
+    public void addItemsToBasket(Product product, double quantity) {
         if (quantity < 0.0) {
             throw new DataInconsistencyException(String.format("No negative numbers allowed in quantity. Received '%f'", quantity));
+        }
+        if (product == null) {
+            throw new IllegalArgumentException("Product is mandatory to add item to basket.");
         }
         BasketLine line = lines.getOrDefault(product.getId(), new BasketLine(product, 0.0));
         line = line.addQuantity(quantity);

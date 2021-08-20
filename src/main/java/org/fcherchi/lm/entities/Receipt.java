@@ -12,8 +12,8 @@ public class Receipt {
     /** Lines with taxes included */
     private final Set<ReceiptLine> receiptLines = new LinkedHashSet<>();
 
-    /** Calculated Sales Taxes */
-    private double salesTaxes;
+    /** Calculated Sales Taxes + Import Taxes */
+    private double taxes;
 
     /** Calculated total including sales */
     private double total;
@@ -36,19 +36,19 @@ public class Receipt {
                 line.getBasketLine().getQuantity(),
                 line.getBasketLine().getProduct().getDescription(),
                 line.getPriceWithTaxes())));
-        builder.append(String.format("Sales Taxes: %.2f%n", this.salesTaxes));
+        builder.append(String.format("Sales Taxes: %.2f%n", this.taxes));
         builder.append(String.format("Total: %.2f%n", this.total));
         return builder.toString();
     }
 
     //Getter and Setters
 
-    public double getSalesTaxes() {
-        return salesTaxes;
+    public double getTaxes() {
+        return taxes;
     }
 
-    public void setSalesTaxes(double salesTaxes) {
-        this.salesTaxes = salesTaxes;
+    public void setTaxes(double taxes) {
+        this.taxes = taxes;
     }
 
     public double getTotal() {
@@ -68,19 +68,19 @@ public class Receipt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Receipt receipt = (Receipt) o;
-        return Double.compare(receipt.salesTaxes, salesTaxes) == 0 && Double.compare(receipt.total, total) == 0 && receiptLines.equals(receipt.receiptLines);
+        return Double.compare(receipt.taxes, taxes) == 0 && Double.compare(receipt.total, total) == 0 && receiptLines.equals(receipt.receiptLines);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(receiptLines, salesTaxes, total);
+        return Objects.hash(receiptLines, taxes, total);
     }
 
     @Override
     public String toString() {
         return "Receipt{" +
                 "receiptLines=" + receiptLines +
-                ", salesTaxes=" + salesTaxes +
+                ", taxes=" + taxes +
                 ", total=" + total +
                 '}';
     }

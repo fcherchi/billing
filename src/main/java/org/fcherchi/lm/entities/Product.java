@@ -8,7 +8,7 @@ public class Product {
     /**
      * Unique identifier of the product
      */
-    private final Integer id;
+    private final int id;
 
     /**
      * Description of the product
@@ -23,7 +23,7 @@ public class Product {
     /**
      * Price
      */
-    private final Double price;
+    private final double price;
 
     /**
      * Creates a product instance
@@ -32,14 +32,14 @@ public class Product {
      * @param category Reference to the category
      * @param price The price
      */
-    public Product(Integer id, String description, ProductCategory category, Double price) {
+    public Product(int id, String description, ProductCategory category, double price) {
         this.id = id;
         this.description = description;
         this.category = category;
         this.price = price;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -51,17 +51,11 @@ public class Product {
         return category;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) && description.equals(product.description) && category.equals(product.category) && price.equals(product.price);
-    }
+
 
     @Override
     public int hashCode() {
@@ -76,5 +70,13 @@ public class Product {
                 ", category=" + category +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(product.price, price) == 0 && Objects.equals(description, product.description) && Objects.equals(category, product.category);
     }
 }

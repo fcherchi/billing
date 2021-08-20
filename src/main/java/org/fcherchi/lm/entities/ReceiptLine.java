@@ -10,11 +10,11 @@ public class ReceiptLine {
     /** Composed, the Basket Line that created this receipt line. */
     private final BasketLine basketLine;
     /** The price of the basket line after taxes have been applied. */
-    private final Double priceWithTaxes;
+    private final double priceWithTaxes;
     /** The calculated sales tax */
-    private final Double salesTax;
+    private final double salesTax;
     /** The calculated import tax */
-    private final Double importTax;
+    private final double importTax;
 
     /**
      * Constructs a new Receipt line
@@ -23,7 +23,7 @@ public class ReceiptLine {
      * @param salesTax The amount of sales tax (in monetary unit)
      * @param importTax The amount of import tax (in monetary unit)
      */
-    public ReceiptLine(BasketLine basketLine, Double priceWithTaxes, Double salesTax, Double importTax) {
+    public ReceiptLine(BasketLine basketLine, double priceWithTaxes, double salesTax, double importTax) {
         this.basketLine = basketLine;
         this.priceWithTaxes = priceWithTaxes;
         this.salesTax = salesTax;
@@ -35,13 +35,7 @@ public class ReceiptLine {
         return basketLine;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReceiptLine that = (ReceiptLine) o;
-        return basketLine.equals(that.basketLine) && priceWithTaxes.equals(that.priceWithTaxes) && salesTax.equals(that.salesTax) && importTax.equals(that.importTax);
-    }
+
 
     @Override
     public int hashCode() {
@@ -58,15 +52,23 @@ public class ReceiptLine {
                 '}';
     }
 
-    public Double getPriceWithTaxes() {
+    public double getPriceWithTaxes() {
         return priceWithTaxes;
     }
 
-    public Double getSalesTax() {
+    public double getSalesTax() {
         return salesTax;
     }
 
-    public Double getImportTax() {
+    public double getImportTax() {
         return importTax;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReceiptLine that = (ReceiptLine) o;
+        return Double.compare(that.priceWithTaxes, priceWithTaxes) == 0 && Double.compare(that.salesTax, salesTax) == 0 && Double.compare(that.importTax, importTax) == 0 && Objects.equals(basketLine, that.basketLine);
     }
 }

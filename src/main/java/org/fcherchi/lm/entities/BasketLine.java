@@ -13,14 +13,14 @@ public class BasketLine {
     /**
      * The amount of units being sold
      */
-    private final Double quantity;
+    private final double quantity;
 
     /**
      * Creates a basket line
      * @param product Product reference
      * @param quantity Quantity of elements being added to basket
      */
-    public BasketLine(Product product, Double quantity) {
+    public BasketLine(Product product, double quantity) {
         this.product = product;
         this.quantity = quantity;
     }
@@ -30,7 +30,7 @@ public class BasketLine {
      * @param quantity The quantity to be added.
      * @return The new basket line generated (basket lines are immutable, so a new instance is created)
      */
-    public BasketLine addQuantity(Double quantity) {
+    public BasketLine addQuantity(double quantity) {
         return new BasketLine(this.product, this.quantity + quantity);
     }
 
@@ -59,7 +59,7 @@ public class BasketLine {
         return product;
     }
 
-    public Double getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 }

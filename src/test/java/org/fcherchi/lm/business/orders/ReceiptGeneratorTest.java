@@ -89,24 +89,36 @@ public class ReceiptGeneratorTest {
         System.out.println("Output 1:");
         System.out.println(receipt1.prettyPrint());
 
-        Assertions.assertEquals(1.50, receipt1.getSalesTaxes(), "Expected sales taxes of 1.50 in output 1");
+        Assertions.assertEquals(1.50, receipt1.getTaxes(), "Expected sales taxes of 1.50 in output 1");
         Assertions.assertEquals(29.83, receipt1.getTotal(), "Expected total of 29.83 in output1");
 
         Receipt receipt2 = receiptGenerator.buildReceipt(getBasketInput2());
         System.out.println("Output 2:");
         System.out.println(receipt2.prettyPrint());
 
-        Assertions.assertEquals(7.65, receipt2.getSalesTaxes(), "Expected sales taxes of 7.65 in output 2");
+        Assertions.assertEquals(7.65, receipt2.getTaxes(), "Expected sales taxes of 7.65 in output 2");
         Assertions.assertEquals(65.15, receipt2.getTotal(), "Expected total of 65.15 in output1");
 
         Receipt receipt3 = receiptGenerator.buildReceipt(getBasketInput3());
         System.out.println("Output 3:");
         System.out.println(receipt3.prettyPrint());
 
-        Assertions.assertEquals(6.70, receipt3.getSalesTaxes(), "Expected sales taxes of 6.70 in output 3");
+        Assertions.assertEquals(6.70, receipt3.getTaxes(), "Expected sales taxes of 6.70 in output 3");
         Assertions.assertEquals(74.68, receipt3.getTotal(), "Expected total of 74.68 in output1");
+    }
 
+    @Test
+    public void testReceiptCreationWhenBasketIsEmpty() {
+        Basket basket = new Basket();
+        Receipt receipt = this.receiptGenerator.buildReceipt(basket);
+        Assertions.assertEquals(0, receipt.getTaxes(), "Expected Total taxes 0 when basket is empty");
+        Assertions.assertEquals(0, receipt.getTotal(), "Expected Total 0 when basket is empty");
+        Assertions.assertEquals(true, receipt.getReceiptLines().isEmpty(), "List of receipt lines should be empty when basket is empty");
+    }
 
+    @Test
+    public void testExceptionWhenBasketIsNull() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.receiptGenerator.buildReceipt(null));
     }
 
     private Basket getBasketInput1() {

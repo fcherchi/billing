@@ -5,11 +5,11 @@ import java.util.Objects;
 public class ProductCategory {
 
     /** Unique identifier of the category */
-    private final Integer id;
+    private final int id;
     /** Description of the product */
     private final String description;
     /** Is the article imported */
-    private final Boolean isImported;
+    private final boolean isImported;
 
     /**
      * Creates a product category instance
@@ -17,13 +17,13 @@ public class ProductCategory {
      * @param description The description
      * @param isImported True if is an imported product (used to calculate taxes)
      */
-    public ProductCategory(Integer id, String description, Boolean isImported) {
+    public ProductCategory(int id, String description, boolean isImported) {
         this.id = id;
         this.description = description;
         this.isImported = isImported;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -32,7 +32,7 @@ public class ProductCategory {
     }
 
 
-    public Boolean getImported() {
+    public boolean getImported() {
         return isImported;
     }
 
@@ -45,12 +45,13 @@ public class ProductCategory {
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductCategory category = (ProductCategory) o;
-        return id.equals(category.id) && description.equals(category.description) && isImported.equals(category.isImported);
+        ProductCategory that = (ProductCategory) o;
+        return id == that.id && Objects.equals(description, that.description) && Objects.equals(isImported, that.isImported);
     }
 
     @Override
